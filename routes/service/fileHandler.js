@@ -58,14 +58,24 @@ var documentUpload = multer({ //multer settings
 }).single('file');
 
 
-router.post('/uploadStudentProfilePic',function(req,res,next){
-	upload(req,res,function(err){
-		if(err){
-			res.json({error_code:1,err_desc:err});
-			return;
-		}
-		res.json({error_code:0,err_desc:null,filename:filename});
-	});
+router.post('/uploadProfilePic',function(req,res,next){
+    upload(req,res,function(err){
+        if(err){
+            res.json({error_code:1,err_desc:err});
+            return;
+        }
+        res.json({error_code:0,err_desc:null,filename:filename});
+    });
+});
+
+router.post('/uploadFile',function(req,res,next){
+    upload(req,res,function(err){
+        if(err){
+            res.json({error_code:1,err_desc:err});
+            return;
+        }
+        res.json({error_code:0,err_desc:null,filename:filename});
+    });
 });
 
 

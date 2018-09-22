@@ -123,6 +123,7 @@ router.post('/updateProfile', function (req, res, next) {
 		phone: req.body.phone,
 		fathername: req.body.fathername,
 		mothername: req.body.mothername,
+        profilePic:req.body.profilePic,
 		permanent_address: req.body.permanent_address
 	};
 	ProfileController.updateProfile(parameters)

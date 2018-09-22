@@ -65,5 +65,11 @@ module.exports = {
         IMAGE_MEDIUM: 'medium',
         IMAGE_HIGH: 'high'
 
+    },
+    post_type:{
+        TECHNOLOGY:'Technology',
+        CIVICS:'Civics',
+        POLITICS:'Politics',
+        EDUCATION:'Education'
     }
 };

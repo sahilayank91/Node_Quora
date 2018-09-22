@@ -34,6 +34,8 @@ router.get('/courses',function(req,res,next){
 router.get('/fresherRegistration',function(req,res,next){
     res.render('partials/studentRegistration/registrationDashboard',{title:'Student Registration'})
 })
-
+router.get('/addQuestion',function(req,res,next){
+    res.render('partials/addQuestion/addQuestion',{title:'Add Question'})
+})
 
 module.exports = router;

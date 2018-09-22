@@ -107,6 +107,7 @@ var SERVICE_authenticate = require(__BASE__ + "routes/service/authenticate");
 var SERVICE_registration = require(__BASE__ + "routes/service/registration");
 var SERVICE_user = require(__BASE__ + "routes/service/user");
 var SERVICE_file = require(__BASE__ + "routes/service/fileHandler");
+var SERVICE_post = require(__BASE__ + "routes/service/posts");
 
 /****************************************************/
 /****************** Routes Mapping ******************/
@@ -115,6 +116,7 @@ app.use('/', UI_INDEX);
 app.use('/service/authenticate', SERVICE_authenticate);
 app.use('/service/registration',SERVICE_registration);
 app.use('/service/user',SERVICE_user);
+app.use('/service/post/',SERVICE_post);
 app.use('/service/file/',SERVICE_file);
 
 

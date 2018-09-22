@@ -23,7 +23,6 @@ var UserSchema = new mongoose.Schema({
 	category:{type:String,enum:[CATEGORY.GENERAL,CATEGORY.OBC,CATEGORY.SC,CATEGORY.ST]},
 	year:{type:String,enum:[YEAR.FIRST,YEAR.SECOND,YEAR.THIRD,YEAR.FOURTH]},
 
-	category:{type:String,required:true,enum:[CATEGORY.GENERAL,CATEGORY.OBC,CATEGORY.SC,CATEGORY.ST]},
 	phone: String,
 	email: {type:String,unique:true},
 	dob:{type:Date},
@@ -72,7 +71,9 @@ var UserSchema = new mongoose.Schema({
 
     about: String,
 
-
+    follower:{type:Number,default:0},
+    following:{type:Number,default:0},
+    friends:{type:Number,default:0},
 
 
 

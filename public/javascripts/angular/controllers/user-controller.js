@@ -1,5 +1,5 @@
 IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory) {
-    $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
+     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
 
     $scope.confirm_password = "";
     function validateParameters(type){
@@ -41,12 +41,6 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
 
 
     $scope.register = function(){
-
-        if(!validateParameters('register')){
-            window.alert('Information given not correct');
-            return;
-        }
-
         var parameters = {
           email:$scope.email,
           password:$scope.password,

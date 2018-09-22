@@ -1,4 +1,4 @@
-FollowClassApplication.filter('stringify', function () {
+IIITK_ERP.filter('stringify', function () {
     return function (item) {
         if (item) {
             if (typeof item === 'object')
