@@ -40,9 +40,20 @@ var PostSchema = new mongoose.Schema(
         tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
 
         like:{type:Number,default:0},
-
+        dislike:{type:Number,default:0},
         // number of comments
-        comment:[{type:mongoose.Schema.Types.ObjectId,ref:'Comment'}],
+        comment:[{
+            user: {type: String, ref: 'User'},
+            firstname:{type:String},
+            lastname:{type:String},
+            text:{type:String},
+            profilePic:{type:String},
+            occupation:{type:String},
+            upvote_count:{type:Number,default:0},
+            downvote_count:{type:Number,default:0},
+            created_at: {type: Date, default: new Date()},
+        }
+        ],
         comment_count: {type: Number, default: 0},
         // The group For which the attendance/Reminder was created - On Populate it will give the institute Details
         attendanceGroup: {type: String, ref: 'Group'},

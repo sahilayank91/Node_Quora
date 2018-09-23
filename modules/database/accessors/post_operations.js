@@ -1,12 +1,15 @@
-var Post = require(__BASE__ + "modules/database/models/post");
-var mongoose = require('mongoose');
-var LOGGER = require(__BASE__ + "modules/utils/Logger");
-var Promise = require('bluebird');
+let Post = require(__BASE__ + "modules/database/models/post");
+let User = require(__BASE__ + "modules/database/models/user");
 
-var getCreateTemplate = function (parameters) {
+let mongoose = require('mongoose');
+let LOGGER = require(__BASE__ + "modules/utils/Logger");
+let Promise = require('bluebird');
+let customUUID = require(__BASE__ + "modules/utils/CustomUUID");
 
-    var template = {};
-    for (var key in parameters) {
+let getCreateTemplate = function (parameters) {
+
+    let template = {};
+    for (let key in parameters) {
         switch (key) {
             case 'posted_by':
             case 'group':
@@ -18,16 +21,19 @@ var getCreateTemplate = function (parameters) {
         }
     }
     ;
+    // if (!template._id) {
+    //     template._id = customUUID.getRandomAplhaNumeric();
+    // }
 
     template.create_time = new Date();
     template.update_time = template.create_time;
     return template;
-}
+};
 
-var getUpdateTemplate = function (parameters) {
+let getUpdateTemplate = function (parameters) {
 
-    var template = {update_time: new Date()};
-    for (var key in parameters) {
+    let template = {update_time: new Date()};
+    for (let key in parameters) {
         switch (key) {
             case 'content':
             case 'comment_count':
@@ -40,15 +46,8 @@ var getUpdateTemplate = function (parameters) {
     return template;
 }
 
-/*
- order is important
- options : {
- skip: 30,
- limit : 5,
- }
- */
 
-var getPosts = function (rule, fields, options) {
+let getPosts = function (rule, fields, options) {
 
     return new Promise(function (resolve, reject) {
         Post.find(rule, fields, options).lean().exec(function (err, data) {
@@ -62,7 +61,7 @@ var getPosts = function (rule, fields, options) {
     });
 }
 
-var countPosts = function (rule) {
+let countPosts = function (rule) {
 
     return new Promise(function (resolve, reject) {
         Post.count(rule).lean().exec(function (err, data) {
@@ -77,7 +76,7 @@ var countPosts = function (rule) {
 }
 
 
-var getPostById = function (id) {
+let getPostById = function (id) {
     return new Promise(function (resolve, reject) {
         Post.findById(id, function (err, data) {
             if (!err) {
@@ -91,27 +90,18 @@ var getPostById = function (id) {
 }
 
 
-var getPostsPopulated = function (rule, fields, options) {
+let getPostsPopulated = function (rule, fields, options) {
 
     return new Promise(function (resolve, reject) {
         Post.find(rule, fields, options)
             .populate([
                 {
                     path: "posted_by",
-                    select: '_id username firstname lastname profile_pic'
+                    select: '_id firstname lastname name profilePic occupation'
                 },
                 {
-                    path: "recipients",
-                    select: '_id username firstname lastname profile_pic',
-                },
-                {
-                    path: "group",
-                    select: '_id name',
-                },
-                {
-                    path: "tags",
-                    select: '_id name',
-                },
+                    path:"comment",
+                }
             ])
             .exec(function (err, data) {
                 if (!err) {
@@ -124,7 +114,7 @@ var getPostsPopulated = function (rule, fields, options) {
     });
 }
 
-var deletePost = function (rule) {
+let deletePost = function (rule) {
 
     return new Promise(function (resolve, reject) {
         Post.remove(rule, function (err, oldData) {
@@ -143,10 +133,10 @@ var deletePost = function (rule) {
  TODO: commenting, likes, attaching&removing files & images.
  */
 
-var createPost = function (parameters) {
+let createPost = function (parameters) {
     return new Promise(function (resolve, reject) {
-        var template = getCreateTemplate(parameters);
-        var record = new Post(template);
+        let template = getCreateTemplate(parameters);
+        let record = new Post(template);
         record.save(function (err, data) {
             if (!err) {
                 resolve(data);
@@ -161,7 +151,7 @@ var createPost = function (parameters) {
 
 
 
-var updatePost = function (rule, template) {
+let updatePost = function (rule, template) {
 
     return new Promise(function (resolve, reject) {
         Post.update(rule, template, {upsert: false}, function (err, data) {
@@ -177,10 +167,10 @@ var updatePost = function (rule, template) {
 }
 
 
-var updatePostContentAndTags = function (rule, content, tags) {
+let updatePostContentAndTags = function (rule, content, tags) {
 
     return new Promise(function (resolve, reject) {
-        var template = getUpdateTemplate({content: content, tags: tags});
+        let template = getUpdateTemplate({content: content, tags: tags});
         Post.update(rule, {$set: template}, {upsert: false}, function (err, data) {
             if (!err) {
                 resolve(data);
@@ -193,7 +183,7 @@ var updatePostContentAndTags = function (rule, content, tags) {
 };
 
 
-var doesPostBelongToTheGroup = function (postId, groupId) {
+let doesPostBelongToTheGroup = function (postId, groupId) {
     return getPosts({_id: postId, group: groupId})
         .then(function (data) {
             if (data.length == 1) {
@@ -205,7 +195,7 @@ var doesPostBelongToTheGroup = function (postId, groupId) {
 }
 
 
-var canUserDeleteThePersonalPost = function (userId, postId) {
+let canUserDeleteThePersonalPost = function (userId, postId) {
     return getPosts({_id: postId, posted_by: userId})
         .then(function (data) {
             if (data.length == 1) {
@@ -217,6 +207,75 @@ var canUserDeleteThePersonalPost = function (userId, postId) {
 }
 
 
+
+let createComment = function (rule, template) {
+    return new Promise(function (resolve, reject) {
+        Post.update(rule, template, {upsert: false}, function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('UpdatePost', err, rule, template);
+                reject(new Error('Failed to update Post'));
+            }
+        });
+    });
+
+};
+
+
+let addLike = function (rule, template) {
+    return new Promise(function (resolve, reject) {
+        Post.update(rule, template, {upsert: false}, function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('UpdatePost', err, rule, template);
+                reject(new Error('Failed to update Post'));
+            }
+        });
+    });
+
+};
+
+let disLike = function (rule, template) {
+    return new Promise(function (resolve, reject) {
+        Post.update(rule, template, {upsert: false}, function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('UpdatePost', err, rule, template);
+                reject(new Error('Failed to update Post'));
+            }
+        });
+    });
+
+};
+let upVoteAnswer = function (rule, template) {
+    return new Promise(function (resolve, reject) {
+        Post.update(rule, template, {upsert: true}, function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('UpdatePost', err, rule, template);
+                reject(new Error('Failed to update Post'));
+            }
+        });
+    });
+
+};
+let savePost = function (rule, template) {
+    return new Promise(function (resolve, reject) {
+        User.update(rule, template, {upsert: true}, function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('Updateuser', err, rule, template);
+                reject(new Error('Failed to update user'));
+            }
+        });
+    });
+};
+
 module.exports = {
     getPosts: getPosts,
     countPosts: countPosts,
@@ -226,6 +285,11 @@ module.exports = {
     updatePostContentAndTags: updatePostContentAndTags,
     getPostsPopulated: getPostsPopulated,
     getPostById: getPostById,
+    createComment:createComment,
+    addLike:addLike,
+    upVoteAnswer:upVoteAnswer,
+    disLike:disLike,
     doesPostBelongToTheGroup: doesPostBelongToTheGroup,
-    canUserDeleteThePersonalPost: canUserDeleteThePersonalPost
+    canUserDeleteThePersonalPost: canUserDeleteThePersonalPost,
+    savePost:savePost
 };

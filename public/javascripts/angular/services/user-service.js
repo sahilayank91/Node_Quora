@@ -80,7 +80,7 @@ IIITK_ERP.service('UserService',['$http', '$q','UIUtilityService', function ($ht
 				var deferredData = {};
 				console.log(parameters);
 
-				var url = UIUtilityService.getURL('user').getUserFullDetail;
+				var url = UIUtilityService.getURL('authenticate').getProfile;
 				$http({method: 'POST', url: url, data: parameters}).then(function (data) {
 					data = data.data;
 					if (data.success == 'false' || !data.success) {

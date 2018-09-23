@@ -33,7 +33,17 @@ window.CONFIG = {
         postComment: "service/post/comment",
         dashboardPosts: "service/post/getDashboardPosts",
         getComments: "service/post/comments",
+        getPost: "service/post/getPost",
+        savePost: "service/post/savePost",
+
         uploadFiles: "service/file/attachment/upload",
+        addLike:"service/post/addLike",
+        disLike:"service/post/disLike",
+        followUser:"service/post/followUser",
+        unfollowUser:"service/post/unfollowUser",
+        upVoteAnswer:"service/post/upVoteAnswer",
+        downVoteAnswer:"service/post/downVoteAnswer",
+
         getRecommendations: "service/internal/getRecommendationForUser"
     },
 };

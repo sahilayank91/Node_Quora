@@ -1,8 +1,11 @@
-IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService','$window','UIUtilityService','DataFactory','Upload', function ($scope,$rootScope,ProfileService,$window,UIUtilityService,DataFactory,Upload) {
+IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService','$window','UIUtilityService','DataFactory','Upload','PostsService', function ($scope,$rootScope,ProfileService,$window,UIUtilityService,DataFactory,Upload,PostsService) {
 	$scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
+	// $scope.userProfile = $scope.userProfile[0];
+    $scope.expertise = "";
+    $scope.askedQuestions = [];
 
-	$scope.getProfile = function(id){
-		var parameters = {
+    $scope.getProfile = function(id){
+		let parameters = {
 			_id: id
 		};
 		ProfileService.getProfile(parameters)
@@ -22,24 +25,69 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 		});
 	};
 
+    $scope.getProfile($scope.userProfile._id);
 
-	$scope.getProfile($scope.userProfile._id);
+	$scope.getAskedQuestions = function(){
+            if($scope.userProfile){
+                let parameters = {
+                    _id:$scope.userProfile._id
+                };
+
+                PostsService.getPost(parameters)
+                    .then(function(data){
+                        if(data){
+                            console.log("dfdfa",data);
+                          $scope.askedQuestions = data.data;
+                        }
+
+                    })
+            }
+
+	};
+
+
+
 
 	$scope.updateProfile = function(){
 		var parameters = {
 			_id:$scope._id,
 			email:$scope.email,
 			firstname:$scope.firstname,
-			middlename:$scope.middlename,
 			lastname:$scope.lastname,
-			fathername:$scope.fathername,
+            expertise:$scope.expertise,
 			name:$scope.firstname + ' '+ $scope.middlename + ' ' +$scope.lastname,
 			phone:$scope.phone,
 			mothername:$scope.mothername,
-            profilePic:$scope.profilePic,
-			permanent_address:$scope.permanent_address
-		};
+			permanent_address:$scope.permanent_address,
+			occupation:$scope.occupation,
 
+		};
+		if($scope.profilePic){
+		    parameters.profilePic = $scope.profilePic;
+        }
+		var interest=[];
+		if($scope.Education){
+		    interest.push('Education');
+        }
+        if($scope.Technology){
+            interest.push('Technology');
+        }
+        if($scope.Politics){
+            interest.push('Politics');
+        }
+        if($scope.Civics){
+            interest.push('Civics');
+        }
+        if($scope.Websites){
+            interest.push('Websites');
+        }
+        if($scope.Android){
+            interest.push('Android');
+        }
+        parameters.interest = interest;
+
+
+        console.log(parameters);
 		ProfileService.updateProfile(parameters)
 			.then(function(data){
 				if(data){
@@ -63,23 +111,19 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 	$scope.openUpdateProfileModal = function(){
 		$scope._id = $scope.user._id;
 		$scope.firstname = $scope.user.firstname;
-		$scope.middlename = $scope.user.middlename;
 		$scope.lastname = $scope.user.lastname;
-		$scope.branch = $scope.user.branch;
 		$scope.phone = $scope.user.phone;
 		$scope.email = $scope.user.email;
-		$scope.category = $scope.user.category;
-		$scope.mothername = $scope.user.mothername;
-		$scope.fathername = $scope.user.fathername;
 		$scope.permanent_address = $scope.user.permanent_address;
 		$scope.file = "/uploads/" + $scope.userProfile.profilePic;
-		console.log("dfasfs: ",$scope.file);
+		$scope.occupation = $scope.userProfile.occupation;
+		$scope.expertise = $scope.userProfile.expertise;
 		$("#myModal").modal();
 	}
 
 
     vm.submit = function(){ //function to call on form submit
-         if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
+         if (vm.file) { //check if from is valid
             vm.upload(vm.file); //call upload function
          }else{
          	$scope.updateProfile();
@@ -111,7 +155,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
         });
     };
 
-
+    $scope.getAskedQuestions();
 
 
 }]);

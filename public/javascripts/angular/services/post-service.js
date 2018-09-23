@@ -2,6 +2,28 @@ IIITK_ERP.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', 
     'use strict';
 
     return {
+
+        getPost: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').getPost;
+
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                console.log(data);
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                }
+                deferredData.data = data.data;
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
         createPost: function (parameters) {
             var deferred = $q.defer();
             var deferredData = {};
@@ -65,41 +87,9 @@ IIITK_ERP.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', 
         getDashboardPosts: function (parameters) {
             var deferred = $q.defer();
             var deferredData = {};
-            var url = UIUtilityService.getURL('posts').dashboardPosts + "?q=1";
-            if (parameters.lastPostId) {
-                url += '&lastPostId=' + parameters.lastPostId;
-            }
-            // Get posts of child only when it is passed, else get all dashboard posts of user
-            if (parameters.childId) {
-                url += "&id=" + parameters.childId;
-            }
+            var url = UIUtilityService.getURL('posts').dashboardPosts;
 
-            $http({method: 'GET', url: url}).success(function (data, status, headers, config) {
-                if (data.success == 'false' || !data.success) {
-                    deferredData.success = false;
-                } else {
-                    deferredData.success = true;
-                    deferredData.response = data.data;
-                }
-                deferred.resolve(deferredData);
-            })
-                .error(function (data, status, headers, config) {
-                    deferredData.success = false;
-                    deferred.resolve(deferredData);
-                });
-            return deferred.promise;
-        },
-
-        getComments: function (parameters) {
-            var deferred = $q.defer();
-            var deferredData = {};
-            var url = UIUtilityService.getURL('posts').getComments + '?postId=' + parameters.postId;
-
-            if (parameters.lastCommentId) {
-                url += '&lastId=' + parameters.lastCommentId;
-            }
-
-            $http({method: 'GET', url: url}).success(function (data, status, headers, config) {
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
                 if (data.success == 'false' || !data.success) {
                     deferredData.success = false;
                 } else {
@@ -114,6 +104,150 @@ IIITK_ERP.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', 
                 });
             return deferred.promise;
         },
+
+        addLike: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').addLike;
+
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+        disLike: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').disLike;
+
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+        followUser: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').followUser;
+
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+        unfollowUser: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').unfollowUser;
+
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+        upVoteAnswer: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').upVoteAnswer;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+        downVoteAnswer: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').downVoteAnswer;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+        savePost: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').savePost;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+
         uploadFile: function (file) {
             var url = UIUtilityService.getURL('posts').uploadFiles;
 

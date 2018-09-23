@@ -72,19 +72,19 @@
         <section class="content">
             <!-- Small boxes (Stat box) -->
              <div class="row">
-                 <div class="col-md-8">
+                 <div class="col-md-9">
                      <!-- Box Comment -->
-                     <div class="box box-widget">
+                     <div class="box box-widget" ng-repeat="item in dashboardPosts">
                          <div class="box-header with-border">
                              <div class="user-block">
-                                 <img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">
-                                 <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
-                                 <span class="description">Shared publicly - 7:30 PM Today</span>
+                                 <img class="img-circle" src="./uploads/{{item.posted_by.profilePic}}" alt="User Image">
+                                 <span class="username"><a href="#">{{item.posted_by.firstname + ' ' + item.posted_by.lastname }}   </a></span>
+                                 <span class="description">{{item.posted_by.occupation}} - {{item.create_time|readableTimeFilter}}</span>
                              </div>
                              <!-- /.user-block -->
                              <div class="box-tools">
-                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
-                                     <i class="fa fa-circle-o"></i></button>
+                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Save Post">
+                                     <i class="fa fa-save" ng-click = "savePost(item)"></i></button>
                                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                  </button>
                                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -94,90 +94,69 @@
                          <!-- /.box-header -->
                          <div class="box-body">
 
-                             <p>I took this photo this morning. What do you guys think?</p>
+                             <p>{{item.content.text}}</p>
                              <!--<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">-->
 
-                             <ul class="mailbox-attachments clearfix">
-                                 <li>
-                                     <span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span>
+                             <div class="attachment-block clearfix">
+                                 <img class="attachment-img" src="/uploads/{{item.content.file}}" alt="Attachment Image">
 
-                                     <div class="mailbox-attachment-info">
-                                         <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Sep2014-report.pdf</a>
-                                         <span class="mailbox-attachment-size">
-                          1,245 KB
-                          <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
-                        </span>
-                                     </div>
-                                 </li>
-                                 <li>
-                                     <span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span>
+                                 <div class="attachment-pushed">
+                                     <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>
 
-                                     <div class="mailbox-attachment-info">
-                                         <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> App Description.docx</a>
-                                         <span class="mailbox-attachment-size">
-                          1,245 KB
-                          <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
-                        </span>
+                                     <div class="attachment-text">
+                                         Description about the attachment can be placed here.
+                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
                                      </div>
-                                 </li>
-                                 <li>
-                                     <span class="mailbox-attachment-icon has-img"><img src="../../dist/img/photo1.png" alt="Attachment"></span>
+                                     <!-- /.attachment-text -->
+                                 </div>
+                                 <!-- /.attachment-pushed -->
+                             </div>
 
-                                     <div class="mailbox-attachment-info">
-                                         <a href="#" class="mailbox-attachment-name"><i class="fa fa-camera"></i> photo1.png</a>
-                                         <span class="mailbox-attachment-size">
-                          2.67 MB
-                          <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
-                        </span>
-                                     </div>
-                                 </li>
-                                 <li>
-                                     <span class="mailbox-attachment-icon has-img"><img src="../../dist/img/photo2.png" alt="Attachment"></span>
 
-                                     <div class="mailbox-attachment-info">
-                                         <a href="#" class="mailbox-attachment-name"><i class="fa fa-camera"></i> photo2.png</a>
-                                         <span class="mailbox-attachment-size">
-                          1.9 MB
-                          <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
-                        </span>
-                                     </div>
+                             <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>-->
+                             <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>-->
+                             <!--<span class="pull-right text-muted">127 likes - 3 comments</span>-->
+                             <ul class="list-inline">
+                                 <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                                 <li ng-click="addLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                  </li>
+                                 <li ng-click="disLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-down margin-r-5" ></i> Downvote ({{item.dislike}})</a>
+                                 </li>
+                                 <li class="pull-right">
+                                     <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>{{item.comment_count}} Answers
+                                         </a></li>
                              </ul>
-
-
-                             <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                             <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                             <span class="pull-right text-muted">127 likes - 3 comments</span>
                          </div>
                          <!-- /.box-body -->
+
+
+
+
+
+
                          <div class="box-footer box-comments">
-                             <div class="box-comment">
+                             <div class="box-comment" ng-repeat="x in item.comment">
                                  <!-- User image -->
-                                 <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
+                                 <img class="img-circle img-sm" src="/uploads/{{x.profilePic}}" alt="User Image">
 
                                  <div class="comment-text">
-                      <span class="username">
-                        Maria Gonzales
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-                                     It is a long established fact that a reader will be distracted
-                                     by the readable content of a page when looking at its layout.
+                                <span class="username">
+                                        {{x.firstname + ' '+  x.lastname}}
+
+                                     &nbsp;&nbsp;<button ng-if="x.user!=userProfile._id && !userProfile.following.includes(x.user) " ng-click = "followUser(x.user)"><a href="#" class="link-black text-sm"><i class="fa fa-user-plus"></i> Follow</a></button>
+                                     &nbsp;&nbsp;<button ng-if="x.user!=userProfile._id && userProfile.following.includes(x.user) " ng-click = "unfollowUser(x.user)"><a href="#" class="link-black text-sm"><i class="fa fa-user-times"></i> Unfollow</a></button>
+
+                                    <span class="text-muted pull-right">{{x.created_at|readableTimeFilter}}</span>
+                                </span><!-- /.username -->
+                                     {{x.text}}
+
+                                 <div>
+                                     <button ng-if = "userProfile._id!=x.user" ng-click="upVoteAnswer(x._id,item._id)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
+                                     </button>
+                                     <button ng-if = "userProfile._id!=x.user" ng-click="downVoteAnswer(x)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
+                                     </button>
                                  </div>
-                                 <!-- /.comment-text -->
-                             </div>
-                             <!-- /.box-comment -->
-                             <div class="box-comment">
-                                 <!-- User image -->
-                                 <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
 
-
-                                 <div class="comment-text">
-                      <span class="username">
-                        Luna Stark
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-                                     It is a long established fact that a reader will be distracted
-                                     by the readable content of a page when looking at its layout.
                                  </div>
                                  <!-- /.comment-text -->
                              </div>
@@ -187,18 +166,42 @@
                          <div class="box-footer">
 
 
-                             <form action="#" method="post">
-                                 <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
-                                 <!-- .img-push is used to add margin to elements next to floating images -->
-                                 <div class="img-push">
-                                     <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                             <!--<form action="#" method="post">-->
+                                 <!--<img class="img-responsive img-circle img-sm" src="/uploads/{{userProfile.profilePic}}" alt="Alt Text">-->
+                                 <!--&lt;!&ndash; .img-push is used to add margin to elements next to floating images &ndash;&gt;-->
+                                 <!--<div class="img-push">-->
+                                     <!--<input type="text" class="form-control input-sm" placeholder="Press enter to post comment">-->
+                                 <!--</div>-->
+                             <!--</form>-->
+                             <form class="form-horizontal" >
+                                 <div class="form-group margin-bottom-none">
+                                     <div class="col-sm-9">
+                                         <input class="form-control input-sm" id="comment" type="text" placeholder="Write a Comment" ng-model="item.newComment">
+                                     </div>
+                                     <div class="col-sm-3">
+                                         <button type="submit" class="btn btn-danger pull-right btn-block btn-sm" ng-click="addComment(item)">Send</button>
+                                     </div>
                                  </div>
                              </form>
+
                          </div>
                          <!-- /.box-footer -->
                      </div>
                      <!-- /.box -->
                  </div>
+                 <div class="col-md-3 col-sm-6 col-xs-12">
+                     <div class="info-box bg-green">
+                         <span class="info-box-icon"><i class="fa fa-plus"></i></span>
+
+                         <div class="info-box-content">
+                             <a href="/addQuestion" style="text-decoration: none; color:white"><h2 style="text-decoration-color: white">Ask Question</h2></a>
+
+                         </div>
+                         <!-- /.info-box-content -->
+                     </div>
+                     <!-- /.info-box -->
+                 </div>
+
              </div>
 
         </section>

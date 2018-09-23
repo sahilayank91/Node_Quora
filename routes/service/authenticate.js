@@ -55,7 +55,6 @@ router.post('/register',function(req,res) {
         password: req.body.password,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        role: req.body.role
     };
     console.log(parameters);
     UserController.registerUser(parameters)
@@ -74,7 +73,7 @@ router.post('/register',function(req,res) {
 });
 
 router.post('/updateUser',function(req,res){
-    var promise = Promise.resolve(true);
+
     var parameters = {
         email: req.body.email,
         password: req.body.password,
@@ -82,7 +81,7 @@ router.post('/updateUser',function(req,res){
         lastname : req.body.lastname,
         phone: req.body.phone,
         gender: req.body.gender,
-        role: req.body.role
+        occupation:req.body.occupation
     };
 
     promise = userOperations.updateUser(parameters);
@@ -124,8 +123,13 @@ router.post('/updateProfile', function (req, res, next) {
 		fathername: req.body.fathername,
 		mothername: req.body.mothername,
         profilePic:req.body.profilePic,
-		permanent_address: req.body.permanent_address
+        occupation:req.body.occupation,
+		permanent_address: req.body.permanent_address,
+        expertise:req.body.expertise
 	};
+	if(req.body.interest){
+	    parameters.interest=req.body.interest;
+    }
 	ProfileController.updateProfile(parameters)
 		.then(function (Data) {
 			if (Data) {

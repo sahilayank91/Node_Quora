@@ -1,7 +1,7 @@
 IIITK_ERP.controller('CreatePostController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','PostsService','Upload', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,PostsService,Upload) {
     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
 
-
+    console.log($scope.userProfile);
 
 
 

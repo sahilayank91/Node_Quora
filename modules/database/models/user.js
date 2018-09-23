@@ -27,17 +27,12 @@ var UserSchema = new mongoose.Schema({
 	email: {type:String,unique:true},
 	dob:{type:Date},
     password: {type: String, required: false},
-    role: {
-        type: String,
-        required:true,
-        enum: [ROLES.ORGANISATION, ROLES.ADMINISTRATOR, ROLES.FACULTY, ROLES.STUDENT]
-    },
 	gender: {
 		type:String,
 
 		enum:[GENDER.MALE,GENDER.FEMALE,GENDER.OTHER]
 	},
-
+    expertise:{type:String},
 
   fathername:{type:String},
   mothername:{type:String},
@@ -57,8 +52,7 @@ var UserSchema = new mongoose.Schema({
     // TODO: make different default profile pics for different roles
     profilePic: {type:String},
 
-
-
+    interest:[{type:String,enum:['Technology','Science','Civics','Politics','Education','Websites','Android']}],
   // for name prefix matching
     keys: [String],
     // flag for activation
@@ -66,15 +60,15 @@ var UserSchema = new mongoose.Schema({
     created_at: {type: Date, default: new Date()},
     created_by: {type: String, ref: 'User'},
 
-
+    occupation:{type:String},
     address: String,
 
     about: String,
 
-    follower:{type:Number,default:0},
-    following:{type:Number,default:0},
+    follower:[{type:String,ref:'User'}],
+    following:[{type:String,ref:'User'}],
     friends:{type:Number,default:0},
-
+    savedPost:[{type:String,ref:'Post'}]
 
 
 }, {

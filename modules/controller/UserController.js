@@ -67,24 +67,39 @@ let getUserFullDetail = function(parameters){
 		}).catch(function(error){
 			console.log("Error in get Users: ",error);
 		});
-}
+};
 
 
+let followUser = function (userId, query,id) {
+    return userOperations.followUser({_id: userId},query)
+        .then(function (data) {
+            let q = {
+              $push:{"follower":userId}
+            };
+            userOperations.addFollower({_id:id},q)
+                .then(function(data){
+                    console.log("dafsadfa",data);
 
-let registerFresherStudent = function(parameters){
-	console.log(parameters);
-	return userOperations.createUser(parameters)
-		.then(function(data)
-		{
-			if(data)
-			{
-				return data;
-			}
-		})
-}
+                })
 
-
-
+        }).catch(function(err){
+            console.log(err);
+        })
+};
+let unfollowUser = function (userId, query,id) {
+    return userOperations.unfollowUser({_id: userId},query)
+        .then(function (data) {
+            let q = {
+                $pull:{"follower":userId}
+            };
+            userOperations.removeFollower({_id:id},q)
+                .then(function(data){
+                    return data;
+                })
+        }).catch(function(err){
+            console.log(err);
+        })
+};
 
 
 module.exports = {
@@ -93,4 +108,6 @@ module.exports = {
   getLoggedInUser:getLoggedInUser,
   registerUser:registerUser,
   updateProfilePic:updateProfilePic,
+    followUser:followUser,
+    unfollowUser:unfollowUser
 };
