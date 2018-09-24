@@ -66,14 +66,15 @@
     "jquery-sparkline": "^2.1.3",
     "font-awesome": "^4.7.0",
     "Ionicons": "ionicons#^2.0.1",
-    "jquery-ui": "1.11.4"
+    "jquery-ui": "1.11.4",
+    "lightbox2": "^2.10.0"
   },
   "resolutions": {
     "angular-bootstrap": "~1.1.2",
     "angular": "^1.4.10",
     "webcomponentsjs": "^0.6.0",
     "moment": "^2.20.1",
-    "jquery": ">=1.6",
+    "jquery": ">2",
     "chart.js": "2.x",
     "ng-file-upload": "^12.2.13"
   }

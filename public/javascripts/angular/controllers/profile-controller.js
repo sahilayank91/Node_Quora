@@ -3,7 +3,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 	// $scope.userProfile = $scope.userProfile[0];
     $scope.expertise = "";
     $scope.askedQuestions = [];
-
+    $scope.suggestedEdits = [];
     $scope.getProfile = function(id){
 		let parameters = {
 			_id: id
@@ -45,6 +45,42 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 
 	};
 
+	$scope.getSavedPosts = function(){
+	    $scope.savedPosts = [];
+	  if($scope.userProfile){
+	      for(let i=0;i<$scope.userProfile.savedPost.length;i++){
+              let parameters = {
+                  _id:$scope.userProfile.savedPost[i]
+              };
+
+              PostsService.getSavedPost(parameters)
+                  .then(function(data){
+                      if(data){
+                          $scope.savedPosts.push(data.data[0]);
+                      }
+
+                  })
+          }
+      }
+    };
+
+    $scope.getSuggestedEdits = function(){
+
+        $scope.suggestedEdits= [];
+        var parameter  = {
+          user:$scope.userProfile._id
+      };
+      PostsService.getSuggestedEdits(parameter)
+          .then(function(data){
+                       if(data){
+                           console.log(data);
+                           $scope.suggestedEdits = data.data;
+                       }
+
+          }).catch(function(err){
+              console.log(err);
+      })
+    };
 
 
 
@@ -156,6 +192,6 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
     };
 
     $scope.getAskedQuestions();
-
-
+    $scope.getSavedPosts();
+    $scope.getSuggestedEdits();
 }]);

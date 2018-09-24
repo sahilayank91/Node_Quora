@@ -55,10 +55,10 @@ router.post('/getDashboardPosts',function(req,res){
 router.post('/getPost',function(req,res){
     let id = req.body._id;
 
-    PostController.getPostbyId(id)
+    PostController.getPostbyPoster(id)
         .then(function(data){
             if(data){
-                console.log(data);
+
                 RESPONSE.sendOkay(res,{success:true,data:data});
             }else{
                 console.log("Some error occured while getting data from the database");
@@ -68,6 +68,24 @@ router.post('/getPost',function(req,res){
     });
 
 });
+
+router.post('/getSavedPost',function(req,res){
+    let id = req.body._id;
+
+    PostController.getPostbyId(id)
+        .then(function(data){
+            if(data){
+
+                RESPONSE.sendOkay(res,{success:true,data:data});
+            }else{
+                console.log("Some error occured while getting data from the database");
+            }
+        }).catch(function (err) {
+        console.log(err);
+    });
+
+});
+
 
 
 router.post('/comment',function(req,res){
@@ -91,7 +109,7 @@ router.post('/comment',function(req,res){
     ;
 
     let query = {
-        $push:{"comment":parameter},
+        $addToSet:{"comment":parameter},
         $inc:{"comment_count":1}
     };
     PostController.postComment(postId, query)
@@ -146,7 +164,7 @@ router.post('/followUser',function(req,res){
     let id = req.body.id;
 
     let query = {
-        $push:{"following":id}
+        $addToSet:{"following":id}
     };
     UserController.followUser(userId, query, id)
         .then(function(data){
@@ -204,12 +222,12 @@ router.post('/savePost',function(req,res){
     let query = {
         _id:_id,
     };
-    console.log(query);
+
     let template = {
-        $push:{"savedPost":postId}
+        $addToSet:{"savedPost":postId}
     };
 
-    PostController.upVoteAnswer(query, template)
+    PostController.savePost(query, template)
         .then(function(data){
             RESPONSE.sendOkay(res,{success:true,data:data});
         }).catch(function(data){
@@ -217,6 +235,39 @@ router.post('/savePost',function(req,res){
     })
 
 });
+
+router.post('/suggestEdit',function(req,res){
+    var parameter = {
+        posted_by:req.body.posted_by,
+        user:req.body.user,
+        post:req.body.post,
+        text:req.body.text,
+        answer_posted:req.body.answer_posted
+    };
+
+    PostController.createSuggestion(parameter)
+        .then(function(data){
+            RESPONSE.sendOkay(res,{success:true,data:data});
+        }).catch(function(data){
+        console.log("Error in submitting comments",data);
+    })
+
+});
+
+router.post('/getSuggestedEdits',function(req,res){
+    var parameter = {
+        user:req.body.user,
+    };
+
+    PostController.getSuggestedEdits(parameter)
+        .then(function(data){
+            RESPONSE.sendOkay(res,{success:true,data:data});
+        }).catch(function(data){
+        console.log("Error in submitting comments",data);
+    })
+
+});
+
 
 
 router.get('/logout',function(req,res){

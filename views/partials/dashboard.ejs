@@ -72,10 +72,11 @@
         <section class="content">
             <!-- Small boxes (Stat box) -->
              <div class="row">
-                 <div class="col-md-9">
+                 <div class="col-md-1"></div>
+                 <div class="col-md-8">
                      <!-- Box Comment -->
                      <div class="box box-widget" ng-repeat="item in dashboardPosts">
-                         <div class="box-header with-border">
+                         <div class="box-header with-border" id="{{item._id}}">
                              <div class="user-block">
                                  <img class="img-circle" src="./uploads/{{item.posted_by.profilePic}}" alt="User Image">
                                  <span class="username"><a href="#">{{item.posted_by.firstname + ' ' + item.posted_by.lastname }}   </a></span>
@@ -83,8 +84,9 @@
                              </div>
                              <!-- /.user-block -->
                              <div class="box-tools">
+
                                  <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Save Post">
-                                     <i class="fa fa-save" ng-click = "savePost(item)"></i></button>
+                                     <i class="fa fa-save" ng-click ="savePost(item)"></i></button>
                                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                  </button>
                                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -97,18 +99,10 @@
                              <p>{{item.content.text}}</p>
                              <!--<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">-->
 
-                             <div class="attachment-block clearfix">
-                                 <img class="attachment-img" src="/uploads/{{item.content.file}}" alt="Attachment Image">
+                             <div class=" clearfix">
+                                 <a class="example-image-link" href="/uploads/{{item.content.file}}" data-lightbox="{{item._id}}"> <img class="attachment-img" width="20%" height="20%" src="/uploads/{{item.content.file}}" alt="Attachment Image" center-justified="true"></a>
 
-                                 <div class="attachment-pushed">
-                                     <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>
 
-                                     <div class="attachment-text">
-                                         Description about the attachment can be placed here.
-                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
-                                     </div>
-                                     <!-- /.attachment-text -->
-                                 </div>
                                  <!-- /.attachment-pushed -->
                              </div>
 
@@ -117,7 +111,7 @@
                              <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>-->
                              <!--<span class="pull-right text-muted">127 likes - 3 comments</span>-->
                              <ul class="list-inline">
-                                 <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                                 <!--<li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>-->
                                  <li ng-click="addLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                  </li>
                                  <li ng-click="disLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-down margin-r-5" ></i> Downvote ({{item.dislike}})</a>
@@ -151,9 +145,11 @@
                                      {{x.text}}
 
                                  <div>
+                                     <button ng-if = "userProfile._id!=x.user" ng-click="suggestEdit(x._id,item._id,x.user,item.content.text,x.text)" class="pull-right"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-edit margin-r-5"></i> Suggest Edit</a>
+                                     </button>
                                      <button ng-if = "userProfile._id!=x.user" ng-click="upVoteAnswer(x._id,item._id)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                      </button>
-                                     <button ng-if = "userProfile._id!=x.user" ng-click="downVoteAnswer(x)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
+                                     <button ng-if = "userProfile._id!=x.user" ng-click="downVoteAnswer(x._id,item._id)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-down margin-r-5"></i> Downvote ({{item.like}})</a>
                                      </button>
                                  </div>
 
@@ -200,9 +196,53 @@
                          <!-- /.info-box-content -->
                      </div>
                      <!-- /.info-box -->
+                       <div class="attachment-block">
+                           <p><b>Recently Posted Questions</b></p>
+
+                           <div class="clearfix" ng-repeat="item in dashboardPosts">
+                               <a href="#{{item._id}}">{{item.content.text}}</a>
+                               <br><br>
+                           </div>
+
+
+
+
+
+                       </div>
+
+
                  </div>
 
              </div>
+
+
+
+            <div class="modal fade" id="modal-default">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">{{question}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{comment}}&hellip;</p>
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label>Suggestion</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter the Suggestion here..." ng-model = "edit"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" ng-click = "saveEdits()">Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
         </section>
         <!-- /.content -->
@@ -257,6 +297,14 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<script type="text/javascript" src="/bower/lightbox2/dist/js/lightbox.js"></script>
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+
+        })
+    </script>
 </div>    
 </body>
 </html>

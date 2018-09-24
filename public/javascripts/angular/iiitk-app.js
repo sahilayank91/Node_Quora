@@ -1,5 +1,5 @@
 var IIITK_ERP = angular.module('IIITK_ERP',
-    ['ui.router','ngFileUpload']
+    ['ui.router','ngFileUpload','ui.bootstrap','bootstrapLightbox']
 )
     .constant('uiDatetimePickerConfig', {
         dateFormat: 'yyyy-MM-dd HH:mm',

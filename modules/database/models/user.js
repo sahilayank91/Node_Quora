@@ -34,22 +34,8 @@ var UserSchema = new mongoose.Schema({
 	},
     expertise:{type:String},
 
-  fathername:{type:String},
-  mothername:{type:String},
-  father_mobileno:{type:String},
-  mother_mobileno:{type:String},
-  parent_email:{type:String},
-  permanent_address:{type:String},
-  hosteller:{type:String},
-  local_address:{type:String},
-	guardian_name:{type:String},
-	guardian_phone:{type:String},
-	guardian_address:{type:String},
-	guardian_email:{type:String},
+    permanent_address:{type:String},
 
-    secondary_email: String, // institite's email address for password resets
-    secondary_phone: String, // parent's mobile number in case of students
-    // TODO: make different default profile pics for different roles
     profilePic: {type:String},
 
     interest:[{type:String,enum:['Technology','Science','Civics','Politics','Education','Websites','Android']}],
@@ -68,7 +54,14 @@ var UserSchema = new mongoose.Schema({
     follower:[{type:String,ref:'User'}],
     following:[{type:String,ref:'User'}],
     friends:{type:Number,default:0},
-    savedPost:[{type:String,ref:'Post'}]
+    savedPost:[{type:String,ref:'Post'}],
+
+
+
+
+    edits:[{type:String,ref:'Suggestion'}]
+
+
 
 
 }, {

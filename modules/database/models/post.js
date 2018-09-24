@@ -56,8 +56,7 @@ var PostSchema = new mongoose.Schema(
         ],
         comment_count: {type: Number, default: 0},
         // The group For which the attendance/Reminder was created - On Populate it will give the institute Details
-        attendanceGroup: {type: String, ref: 'Group'},
-        reminderGroup: {type: String, ref: 'Group'},
+
 
     },
     {

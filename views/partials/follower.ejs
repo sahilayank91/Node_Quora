@@ -79,7 +79,7 @@
                                     <td>{{item.firstname + ' '+ item.lastname}}</td>
                                     <td>{{item.occupation}}</td>
                                     <td>{{item.expertise}}</td>
-                                    <td><button class="btn-success">Unfollow</button></td>
+                                    <td><button class="btn-success" ng-click="unfollowUser(item._id)">Unfollow</button></td>
                                 </tr>
 
                             </table>
@@ -108,7 +108,7 @@
                                     <td>{{item.firstname + ' '+ item.lastname}}</td>
                                     <td>{{item.occupation}}</td>
                                     <td>{{item.expertise}}</td>
-                                    <td><button class="btn-success">Follow</button></td>
+                                    <td><button class="btn-success" ng-click="followUser(item._id)">Follow</button></td>
                                 </tr>
                                 </tfoot>
                             </table>

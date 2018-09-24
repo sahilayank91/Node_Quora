@@ -172,13 +172,50 @@ IIITK_ERP.controller('HomeController', ['$scope','UserService','$rootScope','$wi
        var parameter = {
            _id:$scope.userProfile._id,
             postId:post._id
-       }
+       };
+       console.log(parameter);
 
+       PostsService.savePost(parameter)
+           .then(function(data){
+
+               if(data){
+                   console.log(data);
+               }
+
+           });
+    };
+
+    $scope.suggestEdit = function(commentId, postId,poster,question,comment){
+        $scope.question = question;
+        $scope.comment = comment;
+        $scope.commentId = commentId;
+        $scope.postId = postId;
+        $scope.user = poster;
+
+        $("#modal-default").modal('show');
 
 
     };
+    $scope.saveEdits = function(){
+
+        $("#modal-default").modal('hide');
+
+            var parameter = {
+                posted_by:$scope.userProfile._id,
+                user:$scope.user,
+                post:$scope.postId,
+                text:$scope.edit,
+                answer_posted:$scope.comment
+            };
 
 
+            PostsService.suggestEdit(parameter)
+                .then(function(data){
+                    if(data){
+                        console.log(data);
+                    }
+                })
+    };
 
     $scope.getDashboardPosts();
 

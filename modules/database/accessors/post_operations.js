@@ -1,5 +1,6 @@
 let Post = require(__BASE__ + "modules/database/models/post");
 let User = require(__BASE__ + "modules/database/models/user");
+let Suggestion = require(__BASE__ + "modules/database/models/suggestion");
 
 let mongoose = require('mongoose');
 let LOGGER = require(__BASE__ + "modules/utils/Logger");
@@ -29,6 +30,32 @@ let getCreateTemplate = function (parameters) {
     template.update_time = template.create_time;
     return template;
 };
+
+
+let getSuggestionCreateTemplate = function (parameters) {
+
+    let template = {};
+    for (let key in parameters) {
+        switch (key) {
+            case 'posted_by':
+            case 'text':
+            case 'post':
+            case 'user':
+            case 'answer_posted':
+                template[key] = parameters[key];
+                break;
+        }
+    }
+    if (!template._id) {
+        template._id = customUUID.getRandomAplhaNumeric();
+    }
+
+    template.create_time = new Date();
+    // template.update_time = template.create_time;
+    return template;
+};
+
+
 
 let getUpdateTemplate = function (parameters) {
 
@@ -167,47 +194,6 @@ let updatePost = function (rule, template) {
 }
 
 
-let updatePostContentAndTags = function (rule, content, tags) {
-
-    return new Promise(function (resolve, reject) {
-        let template = getUpdateTemplate({content: content, tags: tags});
-        Post.update(rule, {$set: template}, {upsert: false}, function (err, data) {
-            if (!err) {
-                resolve(data);
-            } else {
-                LOGGER.logErrorMessage('updatePostContent', err, rule, template);
-                reject(new Error('Failed to update PostContent'));
-            }
-        });
-    });
-};
-
-
-let doesPostBelongToTheGroup = function (postId, groupId) {
-    return getPosts({_id: postId, group: groupId})
-        .then(function (data) {
-            if (data.length == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-}
-
-
-let canUserDeleteThePersonalPost = function (userId, postId) {
-    return getPosts({_id: postId, posted_by: userId})
-        .then(function (data) {
-            if (data.length == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-}
-
-
-
 let createComment = function (rule, template) {
     return new Promise(function (resolve, reject) {
         Post.update(rule, template, {upsert: false}, function (err, data) {
@@ -276,20 +262,64 @@ let savePost = function (rule, template) {
     });
 };
 
+let createSuggestion = function (parameters) {
+    return new Promise(function (resolve, reject) {
+        let template = getSuggestionCreateTemplate(parameters);
+        let record = new Suggestion(template);
+        record.save(function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('CreateSuggestion', err, template);
+                reject(new Error('Failed to create Suggestion'));
+            }
+        });
+    });
+};
+
+
+
+let getSuggestedEdits = function (rule, fields, options) {
+
+    return new Promise(function (resolve, reject) {
+        Suggestion.find(rule, fields, options)
+            .populate([
+                {
+                    path: "post",
+                    select: '_id content create_time type'
+                },
+                {
+                    path:"comment",
+                },
+                {
+                    path: "posted_by",
+                    select:'_id firstname lastname occupation expertise'
+                }
+            ]).lean().exec(function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('GetPosts', err, rule);
+                reject(new Error('Failed to get Posts'));
+            }
+        });
+    });
+};
+
 module.exports = {
     getPosts: getPosts,
     countPosts: countPosts,
     updatePost: updatePost,
     deletePost: deletePost,
     createPost: createPost,
-    updatePostContentAndTags: updatePostContentAndTags,
     getPostsPopulated: getPostsPopulated,
     getPostById: getPostById,
     createComment:createComment,
     addLike:addLike,
     upVoteAnswer:upVoteAnswer,
     disLike:disLike,
-    doesPostBelongToTheGroup: doesPostBelongToTheGroup,
-    canUserDeleteThePersonalPost: canUserDeleteThePersonalPost,
-    savePost:savePost
+
+    savePost:savePost,
+    createSuggestion:createSuggestion,
+    getSuggestedEdits:getSuggestedEdits
 };

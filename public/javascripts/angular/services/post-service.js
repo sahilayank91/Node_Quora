@@ -246,6 +246,65 @@ IIITK_ERP.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', 
                 });
             return deferred.promise;
         },
+        getSavedPost: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').getSavedPost;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+        suggestEdit: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').suggestEdit;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
+        getSuggestedEdits: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').getSuggestedEdits;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
 
 
         uploadFile: function (file) {

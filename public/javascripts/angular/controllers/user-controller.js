@@ -1,4 +1,4 @@
-IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory) {
+IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','PostsService', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,PostsService) {
     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
     console.log($scope.userProfile);
     $scope.confirm_password = "";
@@ -16,6 +16,31 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
             }
         }
     }
+
+    $scope.getUserDetails = function(){
+
+        var parameters = {
+            _id:$scope.userProfile._id
+        };
+
+        UserService.getUserFullDetail(parameters)
+            .then(function(data){
+                if(data){
+                    console.log(data);
+                    $scope.userProfile = data.data[0];
+                    console.log("your user profile is shown as:");
+                    console.log($scope.userProfile);
+                    DataFactory.setResult('userdata',JSON.stringify($scope.userProfile));
+
+                    //Initiating the trigger to all the pages for updating the userdata
+                    $rootScope.$broadcast('updateProfileData');
+                }
+            }).then(function(data){
+            $scope.getFollower();
+            $scope.getFollowing();
+        })
+    };
+
 
     $scope.login = function(){
         if(!validateParameters('login')){
@@ -62,6 +87,7 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
     };
 
     $scope.getFollowing = function(){
+        $scope.following=[];
         if($scope.userProfile){
         for(let i=0;i<$scope.userProfile.following.length;i++){
             let parameters = {
@@ -80,6 +106,7 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
 
 
     $scope.getFollower = function(){
+        $scope.follower=[];
         if($scope.userProfile){
             for(let i=0;i<$scope.userProfile.follower.length;i++){
                 let parameters = {
@@ -95,6 +122,51 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
         }
 
     };
+
+    $scope.followUser = function(userId){
+        var parameter = {
+            userId:$scope.userProfile._id,
+            id:userId
+        };
+
+        PostsService.followUser(parameter)
+            .then(function(data){
+                console.log(data);
+               if(data){
+                   $scope.getUserDetails();
+
+               }
+
+
+            })
+    };
+
+    $scope.unfollowUser = function(userId){
+        var parameter = {
+            userId:$scope.userProfile._id,
+            id:userId
+        };
+
+        PostsService.unfollowUser(parameter)
+            .then(function(data){
+                if(data){
+                    $scope.getUserDetails();
+
+                }
+
+            })
+    };
+
+
+    $scope.verifyEmail = function(){
+        var parameter = {
+            email:$scope.email
+        }
+        
+
+
+    };
+
     $scope.getFollowing();
     $scope.getFollower();
 

@@ -26,11 +26,26 @@ let getPostbyType = function(parameter){
         console.log(err);
     })
 };
-let getPostbyId = function(id){
+let getPostbyPoster = function(id){
     return postOperations.getPostsPopulated({posted_by:id})
         .then(function(data){
             if(data){
-                console.log(data);
+                return data;
+            }else{
+                console.log("Error occured in getting the posts");
+            }
+
+
+        }).catch(function(err){
+            console.log(err);
+        })
+};
+
+let getPostbyId = function(id){
+    return postOperations.getPostsPopulated({_id:id})
+        .then(function(data){
+            if(data){
+
                 return data;
             }else{
                 console.log("Error occured in getting the posts");
@@ -46,7 +61,7 @@ let getPostbyId = function(id){
 let postComment = function (postId, query) {
     return postOperations.createComment({_id: postId},query)
         .then(function (comment) {
-           console.log(comment);
+
            return comment;
             // postOperations.updatePost({_id: postId},{$push:{"comment":comment}});
             // return comment;
@@ -81,6 +96,32 @@ let savePost = function (query, template) {
 };
 
 
+let createSuggestion = function(parameters){
+    console.log(parameters);
+    return postOperations.createSuggestion(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+
+let getSuggestedEdits = function(query){
+    return postOperations.getSuggestedEdits(query)
+        .then(function(data){
+            if(data){
+                return data;
+            }else{
+                console.log("Error occured in getting the posts");
+            }
+
+
+        }).catch(function(err){
+            console.log(err);
+        })
+};
+
+
 module.exports = {
     createPost:createPost,
     getPostbyType:getPostbyType,
@@ -88,5 +129,9 @@ module.exports = {
     addLike:addLike,
     disLike:disLike,
     getPostbyId:getPostbyId,
-    upVoteAnswer:upVoteAnswer
+    upVoteAnswer:upVoteAnswer,
+    savePost:savePost,
+    getPostbyPoster:getPostbyPoster,
+    createSuggestion:createSuggestion,
+    getSuggestedEdits:getSuggestedEdits
 };
