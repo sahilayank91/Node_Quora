@@ -3,15 +3,15 @@ var router = express.Router();
 
 /* GET the first login page. */
 router.get('/', function(req, res, next) {
-  res.render('login', { title: 'Indian Institute of Information Technology, Kota' });
+  res.render('login', { title: 'Quora Clone' });
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'Indian Institute of Information Technology, Kota' });
+    res.render('login', { title: 'Quora Clone' });
 });
 
 router.get('/dashboard', function(req, res, next) {
-    res.render('partials/dashboard', { title: 'Indian Institute of Information Technology, Kota' });
+    res.render('partials/dashboard', { title: 'Quora Clone Dashboard' });
 });
 
 router.get('/register', function(req, res, next) {
@@ -43,6 +43,10 @@ router.get('/follower',function(req,res,next){
 
 router.get('/forgotpassword',function(req,res,next){
     res.render('forgotpassword',{title:'Forgot Password'});
+});
+
+router.get('/logout', function (req,res, next) {
+    res.render('login', {title:'Quora Clone'});
 });
 
 module.exports = router;

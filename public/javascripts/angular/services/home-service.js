@@ -1,4 +1,4 @@
-IIITK_ERP.service('HomeService', ['$http', '$q', 'UIUtilityService', function ($http, $q, UIUtilityService) {
+ASK_BIN.service('HomeService', ['$http', '$q', 'UIUtilityService', function ($http, $q, UIUtilityService) {
 'use strict';
 
 

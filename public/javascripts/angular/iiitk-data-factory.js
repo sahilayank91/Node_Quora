@@ -1,4 +1,4 @@
-IIITK_ERP.factory('DataFactory',function(){
+ASK_BIN.factory('DataFactory',function(){
 
     function getResult(token){
         return localStorage.getItem(token)

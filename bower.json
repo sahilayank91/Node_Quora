@@ -1,10 +1,10 @@
 {
-  "name": "IIITK_ERP",
+  "name": "ASK_BIN",
   "version": "0.0.1",
   "authors": [
     "Sahil Ayank <sahilayank91@gmail.com>"
   ],
-  "description": "IIITK_Website",
+  "description": "ASK_BIN_Website",
   "ignore": [
     "**/.*",
     "node_modules",

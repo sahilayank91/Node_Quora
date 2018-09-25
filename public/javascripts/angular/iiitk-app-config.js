@@ -1,4 +1,4 @@
-IIITK_ERP.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function ($httpProvider, $stateProvider, $urlRouterProvider) {
+ASK_BIN.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function ($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('IIITKInterceptor');
     
     // For any unmatched url, redirect to /index

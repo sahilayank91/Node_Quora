@@ -1,4 +1,4 @@
-IIITK_ERP.controller('RegistrationController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','RegistrationService','Upload', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,RegistrationService,Upload) {
+ASK_BIN.controller('RegistrationController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','RegistrationService','Upload', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,RegistrationService,Upload) {
     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
     $scope.user = {};
 

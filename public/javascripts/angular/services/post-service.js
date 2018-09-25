@@ -1,4 +1,4 @@
-IIITK_ERP.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', function ($http, $q, UIUtilityService, Upload) {
+ASK_BIN.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', function ($http, $q, UIUtilityService, Upload) {
     'use strict';
 
     return {

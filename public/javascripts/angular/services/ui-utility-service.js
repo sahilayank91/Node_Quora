@@ -1,4 +1,4 @@
-IIITK_ERP.service('UIUtilityService', ['$window', function ($window) {
+ASK_BIN.service('UIUtilityService', ['$window', function ($window) {
     'use strict';
     
     return {
