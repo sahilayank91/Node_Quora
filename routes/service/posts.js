@@ -270,6 +270,21 @@ router.post('/getSuggestedEdits',function(req,res){
 
 });
 
+router.post('/reportPost',function(req,res){
+    var parameter = {
+        reportedBy:req.body.reportedBy,
+        post:req.body.post,
+        reason:req.body.reason
+    };
+
+    PostController.reportPost(parameter)
+        .then(function(data){
+            RESPONSE.sendOkay(res,{success:true,data:data});
+        }).catch(function(data){
+        console.log("Error in submitting comments",data);
+    })
+
+});
 
 
 router.get('/logout',function(req,res){

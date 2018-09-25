@@ -1,7 +1,7 @@
 let Post = require(__BASE__ + "modules/database/models/post");
 let User = require(__BASE__ + "modules/database/models/user");
 let Suggestion = require(__BASE__ + "modules/database/models/suggestion");
-
+let ReportedPost = require(__BASE__ + "modules/database/models/reportedPost");
 let mongoose = require('mongoose');
 let LOGGER = require(__BASE__ + "modules/utils/Logger");
 let Promise = require('bluebird');
@@ -54,6 +54,29 @@ let getSuggestionCreateTemplate = function (parameters) {
     // template.update_time = template.create_time;
     return template;
 };
+
+
+let getReportedPostCreateTemplate = function (parameters) {
+
+    let template = {};
+    for (let key in parameters) {
+        switch (key) {
+            case 'reportedBy':
+            case 'reason':
+            case 'post':
+                template[key] = parameters[key];
+                break;
+        }
+    }
+    if (!template._id) {
+        template._id = customUUID.getRandomAplhaNumeric();
+    }
+
+    template.create_time = new Date();
+    // template.update_time = template.create_time;
+    return template;
+};
+
 
 
 
@@ -305,6 +328,21 @@ let getSuggestedEdits = function (rule, fields, options) {
         });
     });
 };
+let reportPost = function (parameters) {
+    return new Promise(function (resolve, reject) {
+        let template = getReportedPostCreateTemplate(parameters);
+        let record = new ReportedPost(template);
+        record.save(function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('CreateReport', err, template);
+                reject(new Error('Failed to create report'));
+            }
+        });
+    });
+};
+
 
 module.exports = {
     getPosts: getPosts,
@@ -318,7 +356,7 @@ module.exports = {
     addLike:addLike,
     upVoteAnswer:upVoteAnswer,
     disLike:disLike,
-
+    reportPost:reportPost,
     savePost:savePost,
     createSuggestion:createSuggestion,
     getSuggestedEdits:getSuggestedEdits
