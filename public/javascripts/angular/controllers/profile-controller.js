@@ -55,7 +55,8 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 
               PostsService.getSavedPost(parameters)
                   .then(function(data){
-                      if(data){
+                      console.log("fsdfsafs",data);
+                      if(data.data.length>0){
                           $scope.savedPosts.push(data.data[0]);
                       }
 
@@ -74,9 +75,10 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
       };
       PostsService.getSuggestedEdits(parameter)
           .then(function(data){
-                       if(data){
+                       if(data.data.length>0){
                            console.log(data);
                            $scope.suggestedEdits = data.data;
+
                        }
 
           }).catch(function(err){
@@ -93,7 +95,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
         };
         PostsService.getReportedPost(parameter)
             .then(function(data){
-                if(data){
+                if(data.data.length>0){
                     console.log("reported:",data);
                     $scope.reportedPost = data.data;
                 }
@@ -111,6 +113,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
               if(data){
                   console.log("post deleted",data);
                   $scope.clearPost(item._id);
+                  window.alert("The post is deleted");
               }
           })
     };
