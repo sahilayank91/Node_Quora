@@ -52,6 +52,7 @@ var PostSchema = new mongoose.Schema(
             upvote_count:{type:Number,default:0},
             downvote_count:{type:Number,default:0},
             created_at: {type: Date, default: new Date()},
+            uploadedFile:{type:String}
         }
         ],
         comment_count: {type: Number, default: 0},

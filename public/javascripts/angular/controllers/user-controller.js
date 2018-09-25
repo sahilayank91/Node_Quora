@@ -162,7 +162,12 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
         var parameter = {
             email:$scope.email
         }
-        
+
+        UserService.forgotPassword(parameter)
+            .then(function(data){
+
+            })
+
 
 
     };

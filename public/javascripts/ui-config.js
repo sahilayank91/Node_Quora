@@ -12,7 +12,9 @@ window.CONFIG = {
         authenticate: "service/authenticate/auth",
         getLoggedInUser:"service/authenticate/getLoggedInUser",
         updateProfile: "service/authenticate/updateProfile",
-        getProfile: "service/authenticate/getProfile"
+        getProfile: "service/authenticate/getProfile",
+
+
     },
       registrationURL:{
               registerStudent:"service/registration/registerStudent",

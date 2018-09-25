@@ -96,6 +96,7 @@ router.post('/comment',function(req,res){
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let occupation = req.body.occupation;
+    let uploadedFile = req.body.uploadedFile;
     let created_at = new Date();
     var parameter = {
         user:user,
@@ -104,7 +105,8 @@ router.post('/comment',function(req,res){
         text:text,
         profilePic:profilePic,
         occupation:occupation,
-        created_at:created_at
+        created_at:created_at,
+        uploadedFile:uploadedFile
         }
     ;
 
