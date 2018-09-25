@@ -144,6 +144,32 @@ router.post('/updateProfile', function (req, res, next) {
 
 });
 
+router.get('/forgotPassword',function(req,res){
+
+    let parameters = {
+        email: req.body.email
+    };
+    UserController.forgotPassword(parameters)
+        .then(function (data) {
+            if (data.length > 0) {
+
+                /*Setting up session parameters*/
+                req.session.key = TokenHandler.generateAuthToken(data[0]._id, data[0].role);
+                req.session.email = data[0].email;
+                req.session.role = data[0].role;
+
+
+                RESPONSE.sendOkay(res, {success: true, data: data});
+            } else {
+                console.log("Some error occured while getting data from the database");
+            }
+        }).catch(function (err) {
+        console.log(err);
+    });
+
+
+});
+
 router.get('/getLoggedInUser',function(req,res){
     if (!req.session.key) {
         return;

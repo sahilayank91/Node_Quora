@@ -40,6 +40,14 @@
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style>
+        .zoom:hover {
+            transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+        }
+        .zoom1:hover {
+            transform: scale(4); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div ng-app="ASK_BIN" ng-controller="HomeController">
@@ -78,7 +86,7 @@
                      <div class="box box-widget" ng-repeat="item in dashboardPosts">
                          <div class="box-header with-border" id="{{item._id}}">
                              <div class="user-block">
-                                 <img class="img-circle" src="./uploads/{{item.posted_by.profilePic}}" alt="User Image">
+                                 <img class="img-circle" src="./uploads/{{item.posted_by.profilePic}}"  alt="User Image">
                                  <span class="username"><a href="#">{{item.posted_by.firstname + ' ' + item.posted_by.lastname }}   </a></span>
                                  <span class="description">{{item.posted_by.occupation}} - {{item.create_time|readableTimeFilter}}</span>
                              </div>
@@ -96,11 +104,11 @@
                          <!-- /.box-header -->
                          <div class="box-body">
 
-                             <p>{{item.content.text}}</p>
+                             <p style="margin-left: 40px">{{item.content.text}}</p>
                              <!--<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">-->
 
                              <div class=" clearfix">
-                                 <a class="example-image-link" href="/uploads/{{item.content.file}}" data-lightbox="{{item._id}}"> <img class="attachment-img" width="20%" height="20%" src="/uploads/{{item.content.file}}" alt="Attachment Image" center-justified="true"></a>
+                                 <a class="example-image-link" href="/uploads/{{item.content.file}}" data-lightbox="{{item._id}}"> <img style="margin-left: 40px" class="attachment-img zoom" width="20%" height="20%" src="/uploads/{{item.content.file}}" alt="Attachment Image" center-justified="true"></a>
 
 
                                  <!-- /.attachment-pushed -->
@@ -110,7 +118,8 @@
                              <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>-->
                              <!--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>-->
                              <!--<span class="pull-right text-muted">127 likes - 3 comments</span>-->
-                             <ul class="list-inline">
+
+                             <ul class="list-inline" style="margin-top: 10px; margin-left: 40px;">
                                  <!--<li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>-->
                                  <li ng-click="addLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                  </li>
@@ -142,18 +151,32 @@
 
                                     <span class="text-muted pull-right">{{x.created_at|readableTimeFilter}}</span>
                                 </span><!-- /.username -->
-                                     {{x.text}}
 
-                                 <div>
-                                     <button ng-if = "userProfile._id!=x.user" ng-click="suggestEdit(x._id,item._id,x.user,item.content.text,x.text)" class="pull-right"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-edit margin-r-5"></i> Suggest Edit</a>
+                                    <p style="margin-top: 10px">{{x.text}}</p>
+                                 </div>
+
+
+
+                                 <div class="comment-text" ng-show="x.uploadedFile" style="border:#000000;">
+
+                                     <p><i>Attachments:</i></p>
+                                     <span ng-show="x.uploadedFile">
+                                         <a class="example-image-link" href="/uploads/{{x.uploadedFile}}" data-lightbox="{{item._id}}"><img style="width: 100px"  ng-show="x.uploadedFile.split('.').pop()=='jpeg' || x.uploadedFile.split('.').pop()=='png' || x.uploadedFile.split('.').pop()=='jpg'" class="attachment-img zoom1"  src="/uploads/{{x.uploadedFile}}" alt="Attachment Image"></a>
+                                         <span class="" style="margin:20px "><a href="/uploads/{{x.uploadedFile}}">{{x.uploadedFile}}</a></span>
+                                     </span>
+                                 </div>
+
+
+                                 <div class="comment-text" style="margin-bottom: 20px;">
+                                     <button ng-show = "userProfile._id!=x.user" ng-click="suggestEdit(x._id,item._id,x.user,item.content.text,x.text)" class="pull-right"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-edit margin-r-5"></i> Suggest Edit</a>
                                      </button>
-                                     <button ng-if = "userProfile._id!=x.user" ng-click="upVoteAnswer(x._id,item._id)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
+                                     <button ng-show = "userProfile._id!=x.user" ng-click="addLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                      </button>
-                                     <button ng-if = "userProfile._id!=x.user" ng-click="downVoteAnswer(x._id,item._id)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-down margin-r-5"></i> Downvote ({{item.like}})</a>
+                                     &nbsp;&nbsp;<button ng-show = "userProfile._id!=x.user" ng-click="disLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-down margin-r-5"></i> Downvote ({{item.dislike}})</a>
                                      </button>
                                  </div>
 
-                                 </div>
+
                                  <!-- /.comment-text -->
                              </div>
                              <!-- /.box-comment -->
@@ -174,9 +197,20 @@
                                      <div class="col-sm-9">
                                          <input class="form-control input-sm" id="comment" type="text" placeholder="Write a Comment" ng-model="item.newComment">
                                      </div>
-                                     <div class="col-sm-3">
+
+                                     <div class="col-sm-1">
+                                         <button type="button" title="Add Attachment" class="btn btn-default btn-flat pull-right" ngf-select="submit($file)"><i class="fa fa-paperclip"></i></button>
+
+                                     </div>
+
+                                     <div class="col-sm-2">
                                          <button type="submit" class="btn btn-danger pull-right btn-block btn-sm" ng-click="addComment(item)">Send</button>
                                      </div>
+                                 </div>
+                                 <div ng-if="uploadedFile">
+                                     <br>
+                                     <p>{{uploadedFile}}   <button class="btn-danger pull-right" ng-click="removeUploadedFile()">Remove</button></p>
+
                                  </div>
                              </form>
 

@@ -102,6 +102,21 @@ let unfollowUser = function (userId, query,id) {
 };
 
 
+let forgotPassword = function (email) {
+    return userOperations.getUsers({email:email})
+        .then(function(data){
+            if(data){
+                return data;
+            }else{
+                throw new Error('No User exists with given useremail');
+            }
+        }).catch(function(error){
+            console.log("Error in get Users: ",error);
+        });
+
+};
+
+
 module.exports = {
   getUsers:getUsers,
   getUserFullDetail:getUserFullDetail,
@@ -109,5 +124,6 @@ module.exports = {
   registerUser:registerUser,
   updateProfilePic:updateProfilePic,
     followUser:followUser,
-    unfollowUser:unfollowUser
+    unfollowUser:unfollowUser,
+    forgotPassword:forgotPassword
 };

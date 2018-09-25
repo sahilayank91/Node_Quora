@@ -162,7 +162,12 @@ ASK_BIN.controller('UserController', ['$scope','$rootScope','UserService','$wind
         var parameter = {
             email:$scope.email
         }
-        
+
+        UserService.forgotPassword(parameter)
+            .then(function(data){
+
+            })
+
 
 
     };

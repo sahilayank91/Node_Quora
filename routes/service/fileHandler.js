@@ -21,9 +21,13 @@ var storage = multer.diskStorage({ //multers disk storage settings
 	},
 
 	filename: function (req, file, cb) {
+
+		console.log(file);
 		var datetimestamp = Date.now();
-		cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-		filename = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+        // cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+        cb(null, file.originalname);
+        // filename = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+        filename = file.originalname;
 	}
 });
 
@@ -47,8 +51,10 @@ var documentStorage = multer.diskStorage({ //multers disk storage settings
 	},
 	filename: function (req, file, cb) {
 		var datetimestamp = Date.now();
-		cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-		filename = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+		// cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+		cb(null, file.name);
+		// filename = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+		filename = file.name;
 	}
 });
 
