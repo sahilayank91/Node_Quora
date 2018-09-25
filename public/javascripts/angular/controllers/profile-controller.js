@@ -94,7 +94,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
         PostsService.getReportedPost(parameter)
             .then(function(data){
                 if(data){
-                    console.log(data);
+                    console.log("reported:",data);
                     $scope.reportedPost = data.data;
                 }
             }).catch(function(err){
@@ -102,7 +102,40 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
         })
     };
 
-	$scope.updateProfile = function(){
+    $scope.deletePost = function(item){
+        var parameter = {
+          _id:item.post._id
+        };
+      PostsService.deletePost(parameter)
+          .then(function(data){
+              if(data){
+                  console.log("post deleted",data);
+                  $scope.clearPost(item._id);
+              }
+          })
+    };
+
+
+
+    $scope.clearPost = function(post){
+        console.log("postfsfsafs:",post);
+
+        var parameter = {
+            _id:post
+        };
+        PostsService.clearPost(parameter)
+            .then(function(data){
+                if(data){
+                    console.log("post cleared",data);
+                    $scope.getReportedPost();
+                }
+            })
+    };
+
+
+
+
+    $scope.updateProfile = function(){
 		var parameters = {
 			_id:$scope._id,
 			email:$scope.email,

@@ -145,6 +145,26 @@ let getReportedPost = function(query){
         })
 };
 
+let deletePost = function(parameters){
+
+    return postOperations.deletePost(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+let clearPost = function(parameters){
+
+    return postOperations.clearPost(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+
+
 module.exports = {
     createPost:createPost,
     getPostbyType:getPostbyType,
@@ -158,5 +178,7 @@ module.exports = {
     createSuggestion:createSuggestion,
     getSuggestedEdits:getSuggestedEdits,
     reportPost:reportPost,
-    getReportedPost:getReportedPost
+    getReportedPost:getReportedPost,
+    deletePost:deletePost,
+    clearPost:clearPost
 };

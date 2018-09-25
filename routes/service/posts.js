@@ -274,7 +274,8 @@ router.post('/reportPost',function(req,res){
     var parameter = {
         reportedBy:req.body.reportedBy,
         post:req.body.post,
-        reason:req.body.reason
+        reason:req.body.reason,
+        postedBy:req.body.postedBy
     };
 
     PostController.reportPost(parameter)
@@ -282,6 +283,36 @@ router.post('/reportPost',function(req,res){
             RESPONSE.sendOkay(res,{success:true,data:data});
         }).catch(function(data){
         console.log("Error in submitting comments",data);
+    })
+
+});
+
+router.post('/deletePost',function(req,res){
+    var parameter = {
+        _id:req.body._id,
+
+    };
+
+    PostController.deletePost(parameter)
+        .then(function(data){
+            RESPONSE.sendOkay(res,{success:true,data:data});
+        }).catch(function(data){
+        console.log("Error in submitting comments",data);
+    })
+
+});
+
+router.post('/clearPost',function(req,res){
+    var parameter = {
+        _id:req.body._id,
+
+    };
+console.log("fsdfsadfasfasdf",parameter);
+    PostController.clearPost(parameter)
+        .then(function(data){
+            RESPONSE.sendOkay(res,{success:true,data:data});
+        }).catch(function(data){
+        console.log("Error in clearing Post",data);
     })
 
 });

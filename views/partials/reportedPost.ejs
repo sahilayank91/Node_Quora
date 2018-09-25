@@ -73,27 +73,49 @@
                             <div class="tab-content">
                                 <div class="active tab-pane" id="reportedPost">
                                     <!-- Post -->
-                                    <p ng-if="!askedQuestions.length" style="text-align:center;">You haven't asked any Questions yet</p>
-                                    <div class="post clearfix" ng-if="askedQuestions.length> 0" ng-repeat = "item in askedQuestions">
+                                    <p ng-if="!reportedPost.length" style="text-align:center;">You haven't asked any Questions yet</p>
+                                    <div class="post clearfix" ng-if="reportedPost.length> 0" ng-repeat = "item in reportedPost">
                                         <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="/uploads/{{userProfile.profilePic}}" alt="user image">
+                                            <p><b>Posted By</b></p>
+                                            <img class="img-circle img-bordered-sm" src="/uploads/{{item.postedBy.profilePic}}" alt="user image">
                                             <span class="username">
-                                        <a href="#">Type - {{item.type}}</a>
+                                        <a href="#">{{item.postedBy.firstname + ' ' + item.postedBy.lastname}}</a>
                                         <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
                                         </span>
-                                            <span class="description">{{item.update_time | readableTimeFilter }}</span>
+                                            <span class="description">{{item.post.create_time | readableTimeFilter }}</span>
                                         </div>
-                                        <!-- /.user-block -->
                                         <p>
-                                            {{item.content.text}}
+                                            {{item.post.content.text}}
                                         </p>
+                                        <div class="clearfix">
+                                            <a class="example-image-link" href="/uploads/{{item.post.content.file}}" data-lightbox="{{item._id}}"> <img style="margin-left: 30px" class="attachment-img img-thumbnail " width="10%" height="10%" src="/uploads/{{item.post.content.file}}" alt="Attachment Image" center-justified="true"></a>
+                                        </div>
+
+
+                                        <div class="user-block">
+
+                                            <p><b>Reported By</b></p>
+                                            <img class="img-circle img-bordered-sm" src="/uploads/{{item.reportedBy.profilePic}}" alt="user image">
+                                            <span class="username">
+                                        <a href="#">{{item.reportedBy.firstname + ' ' + item.reportedBy.lastname}}</a>
+                                        <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                                        </span>
+                                            <span class="description">{{item.create_time | readableTimeFilter }}</span>
+                                        </div>
+
+
+
+
+
+                                        <!-- /.user-block -->
+                                        <p><b>Reason for reporting: </b>  {{item.reason}}</p>
+                                        <label>Take Action: </label><br>
                                         <ul class="list-inline">
-                                            <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                                            <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like ({{item.like}})</a>
-                                            </li>
-                                            <li class="pull-right">
-                                                <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
-                                                    ({{item.comment_count}})</a></li>
+                                            <button type="button" class="btn btn-warning" style="margin-left: 40px" data-toggle="tooltip" title="Report Post" ng-click ="deletePost(item)">
+                                                <i class="fa fa-ban" ></i> Delete Post</button>
+                                            <button type="button" style="margin-right: 40px" class="btn btn-success pull-right" data-toggle="tooltip" title="Save Post" ng-click ="clearPost(item._id)">
+                                                <i class="fa fa-save" ></i> Clear Post from Reported Posts</button>
+
                                         </ul>
 
 
