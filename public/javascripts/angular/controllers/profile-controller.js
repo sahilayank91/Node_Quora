@@ -59,7 +59,9 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
                           $scope.savedPosts.push(data.data[0]);
                       }
 
-                  })
+                  }).then(function(){
+                      console.log("Saved Posts:" ,  $scope.savedPosts);
+              })
           }
       }
     };
@@ -83,6 +85,22 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
     };
 
 
+    $scope.getReportedPost = function(){
+
+        $scope.reportedPost= [];
+        let parameter  = {
+            actiontaken:false
+        };
+        PostsService.getReportedPost(parameter)
+            .then(function(data){
+                if(data){
+                    console.log(data);
+                    $scope.reportedPost = data.data;
+                }
+            }).catch(function(err){
+            console.log(err);
+        })
+    };
 
 	$scope.updateProfile = function(){
 		var parameters = {
@@ -194,4 +212,5 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
     $scope.getAskedQuestions();
     $scope.getSavedPosts();
     $scope.getSuggestedEdits();
+    $scope.getReportedPost();
 }]);

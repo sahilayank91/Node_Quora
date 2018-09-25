@@ -45,4 +45,7 @@ router.get('/forgotpassword',function(req,res,next){
     res.render('forgotpassword',{title:'Forgot Password'});
 });
 
+router.get('/reportedPost',function(req,res,next){
+    res.render('partials/reportedPost',{title:'Reported Post'});
+});
 module.exports = router;

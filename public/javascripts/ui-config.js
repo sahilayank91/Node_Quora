@@ -41,6 +41,7 @@ window.CONFIG = {
 
         suggestEdit: "service/post/suggestEdit",
         getSuggestedEdits: "service/post/getSuggestedEdits",
+        getReportedPost: "service/post/getReportedPost",
 
         reportPost: "service/post/reportPost",
 

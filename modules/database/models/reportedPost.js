@@ -14,8 +14,9 @@ var ReportedPostSchema = new mongoose.Schema(
 
         create_time: {type: Date, required: true},
 
-        post:{type:String, ref:'Post'},
+        post:{type:String, ref:'Post',unique:true},
         reason: {type: String},
+        actiontaken:{type:Boolean, default:false}
 
     },
     {

@@ -322,9 +322,9 @@
                                 <p ng-if="!savedPosts.length" style="text-align:center;">No Posts have been saved yet</p>
                                 <div class="post clearfix" ng-if="savedPosts.length>0" ng-repeat = "item in savedPosts">
                                     <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="/uploads/{{userProfile.profilePic}}" alt="user image">
+                                        <img class="img-circle img-bordered-sm" src="/uploads/{{item.posted_by.profilePic}}" alt="user image">
                                         <span class="username">
-                                          <a href="#">Type - {{item.type}}</a>
+                                          <a href="#">{{item.posted_by.firstname + ' ' + item.posted_by.lastname }}</a>
                                           <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
                                         </span>
                                         <span class="description">{{item.update_time | readableTimeFilter }}</span>

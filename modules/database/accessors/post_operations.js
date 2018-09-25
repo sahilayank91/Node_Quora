@@ -343,6 +343,32 @@ let reportPost = function (parameters) {
     });
 };
 
+let getReportedPost = function (rule, fields, options) {
+
+    return new Promise(function (resolve, reject) {
+        Suggestion.find(rule, fields, options)
+            .populate([
+                {
+                    path: "post",
+                    select: '_id content create_time type posted_by'
+                },
+                {
+                    path:"reason",
+                },
+                {
+                    path: "reportedBy",
+                    select:'_id firstname lastname occupation expertise'
+                }
+            ]).lean().exec(function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('GetReportedPosts', err, rule);
+                reject(new Error('Failed to GetReportedPosts'));
+            }
+        });
+    });
+};
 
 module.exports = {
     getPosts: getPosts,
@@ -359,5 +385,6 @@ module.exports = {
     reportPost:reportPost,
     savePost:savePost,
     createSuggestion:createSuggestion,
-    getSuggestedEdits:getSuggestedEdits
+    getSuggestedEdits:getSuggestedEdits,
+    getReportedPost:getReportedPost
 };
