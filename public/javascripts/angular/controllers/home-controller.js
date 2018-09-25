@@ -255,9 +255,36 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
         });
     };
 
-$scope.removeUploadedFile = function(){
-    $scope.uploadedFile = "";
-}
+    $scope.removeUploadedFile = function(){
+        $scope.uploadedFile = "";
+    };
+
+    $scope.openReportPostModal = function(post){
+        $scope.question = post.content.text;
+        $scope.postId = post._id;
+
+
+        $("#reportPostModal").modal('show');
+
+
+    };
+
+    $scope.reportPost = function(post){
+        $("#reportPostModal").modal('hide');
+
+        let parameter = {
+            reportedBy:$scope.userProfile._id,
+            post:$scope.postId,
+            reason:$scope.edit
+        };
+
+        PostsService.reportPost(parameter)
+            .then(function(data){
+                if(data){
+                    console.log("Post Reported");
+                }
+            })
+    };
     $scope.getDashboardPosts();
 
 

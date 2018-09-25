@@ -42,6 +42,7 @@ window.CONFIG = {
         suggestEdit: "service/post/suggestEdit",
         getSuggestedEdits: "service/post/getSuggestedEdits",
 
+        reportPost: "service/post/reportPost",
 
         uploadFiles: "service/file/attachment/upload",
         addLike:"service/post/addLike",

@@ -122,6 +122,16 @@ let getSuggestedEdits = function(query){
 };
 
 
+let reportPost = function(parameters){
+    console.log(parameters);
+    return postOperations.reportPost(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+
 module.exports = {
     createPost:createPost,
     getPostbyType:getPostbyType,
@@ -133,5 +143,6 @@ module.exports = {
     savePost:savePost,
     getPostbyPoster:getPostbyPoster,
     createSuggestion:createSuggestion,
-    getSuggestedEdits:getSuggestedEdits
+    getSuggestedEdits:getSuggestedEdits,
+    reportPost:reportPost
 };
