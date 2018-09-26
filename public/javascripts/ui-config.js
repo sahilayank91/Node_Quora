@@ -31,7 +31,7 @@ window.CONFIG = {
     postsURL: {
         retrieveGroupPosts: "service/post/getGroupPosts",
         createPost: "service/post/createPost",
-        deletePost: "service/post/delete",
+        deletePost: "service/post/deletePost",
         postComment: "service/post/comment",
         dashboardPosts: "service/post/getDashboardPosts",
         getComments: "service/post/comments",
@@ -39,8 +39,11 @@ window.CONFIG = {
         savePost: "service/post/savePost",
         getSavedPost: "service/post/getSavedPost",
 
-        suggestEdit: "service/post/suggestEdit",
+        clearPost: "service/post/clearPost",
+
+    suggestEdit: "service/post/suggestEdit",
         getSuggestedEdits: "service/post/getSuggestedEdits",
+        getReportedPost: "service/post/getReportedPost",
 
         reportPost: "service/post/reportPost",
 

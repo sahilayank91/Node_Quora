@@ -49,4 +49,7 @@ router.get('/logout', function (req,res, next) {
     res.render('login', {title:'Quora Clone'});
 });
 
+router.get('/reportedPost',function(req,res,next){
+    res.render('partials/reportedPost',{title:'Reported Post'});
+});
 module.exports = router;

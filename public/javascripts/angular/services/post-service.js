@@ -304,6 +304,25 @@ ASK_BIN.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', fu
                 });
             return deferred.promise;
         },
+        getReportedPost: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').getReportedPost;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
 
         reportPost: function (parameters) {
             var deferred = $q.defer();
@@ -324,6 +343,26 @@ ASK_BIN.service('PostsService', ['$http', '$q', 'UIUtilityService', 'Upload', fu
                 });
             return deferred.promise;
         },
+        clearPost: function (parameters) {
+            var deferred = $q.defer();
+            var deferredData = {};
+            var url = UIUtilityService.getURL('posts').clearPost;
+            $http({method: 'POST', url: url, data: parameters}).success(function (data, status, headers, config) {
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferred.resolve(deferredData);
+            })
+                .error(function (data, status, headers, config) {
+                    deferredData.success = false;
+                    deferred.resolve(deferredData);
+                });
+            return deferred.promise;
+        },
+
 
         uploadFile: function (file) {
             var url = UIUtilityService.getURL('posts').uploadFiles;

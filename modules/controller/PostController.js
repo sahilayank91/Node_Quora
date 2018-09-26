@@ -132,6 +132,39 @@ let reportPost = function(parameters){
         })
 };
 
+let getReportedPost = function(query){
+    return postOperations.getReportedPost(query)
+        .then(function(data){
+            if(data){
+                return data;
+            }else{
+                console.log("Error occured in getting the posts");
+            }
+        }).catch(function(err){
+            console.log(err);
+        })
+};
+
+let deletePost = function(parameters){
+
+    return postOperations.deletePost(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+let clearPost = function(parameters){
+
+    return postOperations.clearPost(parameters)
+        .then(function(data){
+            if(data){
+                return data;
+            }
+        })
+};
+
+
 module.exports = {
     createPost:createPost,
     getPostbyType:getPostbyType,
@@ -144,5 +177,8 @@ module.exports = {
     getPostbyPoster:getPostbyPoster,
     createSuggestion:createSuggestion,
     getSuggestedEdits:getSuggestedEdits,
-    reportPost:reportPost
+    reportPost:reportPost,
+    getReportedPost:getReportedPost,
+    deletePost:deletePost,
+    clearPost:clearPost
 };

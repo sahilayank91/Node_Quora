@@ -55,11 +55,14 @@ ASK_BIN.controller('ProfileController', ['$scope','$rootScope','ProfileService',
 
               PostsService.getSavedPost(parameters)
                   .then(function(data){
-                      if(data){
+                      console.log("fsdfsafs",data);
+                      if(data.data.length>0){
                           $scope.savedPosts.push(data.data[0]);
                       }
 
-                  })
+                  }).then(function(){
+                      console.log("Saved Posts:" ,  $scope.savedPosts);
+              })
           }
       }
     };
@@ -72,9 +75,10 @@ ASK_BIN.controller('ProfileController', ['$scope','$rootScope','ProfileService',
       };
       PostsService.getSuggestedEdits(parameter)
           .then(function(data){
-                       if(data){
+                       if(data.data.length>0){
                            console.log(data);
                            $scope.suggestedEdits = data.data;
+
                        }
 
           }).catch(function(err){
@@ -83,8 +87,58 @@ ASK_BIN.controller('ProfileController', ['$scope','$rootScope','ProfileService',
     };
 
 
+    $scope.getReportedPost = function(){
 
-	$scope.updateProfile = function(){
+        $scope.reportedPost= [];
+        let parameter  = {
+            actiontaken:false
+        };
+        PostsService.getReportedPost(parameter)
+            .then(function(data){
+                if(data.data.length>0){
+                    console.log("reported:",data);
+                    $scope.reportedPost = data.data;
+                }
+            }).catch(function(err){
+            console.log(err);
+        })
+    };
+
+    $scope.deletePost = function(item){
+        var parameter = {
+          _id:item.post._id
+        };
+      PostsService.deletePost(parameter)
+          .then(function(data){
+              if(data){
+                  console.log("post deleted",data);
+                  $scope.clearPost(item._id);
+                  window.alert("The post is deleted");
+              }
+          })
+    };
+
+
+
+    $scope.clearPost = function(post){
+        console.log("postfsfsafs:",post);
+
+        var parameter = {
+            _id:post
+        };
+        PostsService.clearPost(parameter)
+            .then(function(data){
+                if(data){
+                    console.log("post cleared",data);
+                    $scope.getReportedPost();
+                }
+            })
+    };
+
+
+
+
+    $scope.updateProfile = function(){
 		var parameters = {
 			_id:$scope._id,
 			email:$scope.email,
@@ -194,4 +248,5 @@ ASK_BIN.controller('ProfileController', ['$scope','$rootScope','ProfileService',
     $scope.getAskedQuestions();
     $scope.getSavedPosts();
     $scope.getSuggestedEdits();
+    $scope.getReportedPost();
 }]);

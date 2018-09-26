@@ -64,6 +64,7 @@ let getReportedPostCreateTemplate = function (parameters) {
             case 'reportedBy':
             case 'reason':
             case 'post':
+            case 'postedBy':
                 template[key] = parameters[key];
                 break;
         }
@@ -177,7 +178,7 @@ let deletePost = function (rule) {
         });
     });
 
-}
+};
 
 /*
  TODO: commenting, likes, attaching&removing files & images.
@@ -343,6 +344,46 @@ let reportPost = function (parameters) {
     });
 };
 
+let getReportedPost = function (rule, fields, options) {
+
+    return new Promise(function (resolve, reject) {
+        ReportedPost.find(rule, fields, options)
+            .populate([
+                {
+                    path: "post",
+                    select: '_id content create_time type posted_by'
+                },
+                {
+                    path: "reportedBy",
+                    select:'_id firstname lastname occupation profilePic'
+                },
+                {
+                    path: "postedBy",
+                    select:'_id firstname lastname occupation profilePic'
+                }
+            ]).lean().exec(function (err, data) {
+            if (!err) {
+                resolve(data);
+            } else {
+                LOGGER.logErrorMessage('GetReportedPosts', err, rule);
+                reject(new Error('Failed to GetReportedPosts'));
+            }
+        });
+    });
+};
+let clearPost = function (rule) {
+    return new Promise(function (resolve, reject) {
+        ReportedPost.remove(rule, function (err, oldData) {
+            if (!err) {
+                resolve(oldData);
+            } else {
+                LOGGER.logErrorMessage('ClearPost', err, rule);
+                reject(new Error('Failed to clear Post'));
+            }
+        });
+    });
+
+};
 
 module.exports = {
     getPosts: getPosts,
@@ -359,5 +400,8 @@ module.exports = {
     reportPost:reportPost,
     savePost:savePost,
     createSuggestion:createSuggestion,
-    getSuggestedEdits:getSuggestedEdits
+    getSuggestedEdits:getSuggestedEdits,
+    getReportedPost:getReportedPost,
+    clearPost:clearPost
+
 };

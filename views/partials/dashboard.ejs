@@ -68,7 +68,6 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Control panel</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -105,18 +104,18 @@
                          <!-- /.box-header -->
                          <div class="box-body">
 
-                             <p style="margin-left: 40px">{{item.content.text}}</p>
+                             <p style="margin-left: 30px"><b>{{item.content.text}}</b></p>
                              <!--<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">-->
 
                              <div class=" clearfix">
-                                 <a class="example-image-link" href="/uploads/{{item.content.file}}" data-lightbox="{{item._id}}"> <img style="margin-left: 40px" class="attachment-img zoom" width="20%" height="20%" src="/uploads/{{item.content.file}}" alt="Attachment Image" center-justified="true"></a>
+                                 <a class="example-image-link" href="/uploads/{{item.content.file}}" data-lightbox="{{item._id}}"> <img style="margin-left: 30px" class="attachment-img zoom" width="20%" height="20%" src="/uploads/{{item.content.file}}" alt="Attachment Image" center-justified="true"></a>
 
 
                                  <!-- /.attachment-pushed -->
                              </div>
 
 
-                             <ul class="list-inline" style="margin-top: 10px">
+                             <ul class="list-inline" style="margin-top: 10px; margin-left: 30px;">
                                  <!--<li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>-->
                                  <li ng-click="addLike(item)"><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                  </li>
@@ -164,12 +163,12 @@
                                  </div>
 
 
-                                 <div class="comment-text" style="margin-bottom: 20px;">
-                                     <button ng-show = "userProfile._id!=x.user" ng-click="suggestEdit(x._id,item._id,x.user,item.content.text,x.text)" class="pull-right"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-edit margin-r-5"></i> Suggest Edit</a>
+                                 <div class="comment-text" style="margin-bottom: 20px;" ng-show = "userProfile._id!=x.user">
+                                     <button  ng-click="suggestEdit(x._id,item._id,x.user,item.content.text,x.text)" class="pull-right"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-edit margin-r-5"></i> Suggest Edit</a>
                                      </button>
-                                     <button ng-show = "userProfile._id!=x.user" ng-click="addLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
+                                     <button ng-click="addLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-up margin-r-5"></i> Upvote ({{item.like}})</a>
                                      </button>
-                                     &nbsp;&nbsp;<button ng-show = "userProfile._id!=x.user" ng-click="disLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-down margin-r-5"></i> Downvote ({{item.dislike}})</a>
+                                     &nbsp;&nbsp;<button ng-click="disLike(item)"><a href="#" class="link-black btn-default pull-right text-sm"><i class="fa fa-level-down margin-r-5"></i> Downvote ({{item.dislike}})</a>
                                      </button>
                                  </div>
 

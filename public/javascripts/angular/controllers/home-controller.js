@@ -262,7 +262,7 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
     $scope.openReportPostModal = function(post){
         $scope.question = post.content.text;
         $scope.postId = post._id;
-
+        $scope.posted = post.posted_by._id;
 
         $("#reportPostModal").modal('show');
 
@@ -275,13 +275,15 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
         let parameter = {
             reportedBy:$scope.userProfile._id,
             post:$scope.postId,
-            reason:$scope.edit
+            reason:$scope.edit,
+            postedBy:$scope.posted
         };
 
         PostsService.reportPost(parameter)
             .then(function(data){
                 if(data){
                     console.log("Post Reported");
+                    $scope.edit = "";
                 }
             })
     };
