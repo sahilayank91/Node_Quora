@@ -1,4 +1,4 @@
-IIITK_ERP.factory('IIITKInterceptor', ['$window', function ($window) {
+ASK_BIN.factory('IIITKInterceptor', ['$window', function ($window) {
     return {
         response: function (response) {
             if (response.data && response.data.redirect) {

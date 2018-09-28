@@ -1,4 +1,4 @@
-IIITK_ERP.filter('readableTimeFilter', function () {
+ASK_BIN.filter('readableTimeFilter', function () {
     return function (timestamp) {
         if(timestamp) {
             if (moment(timestamp).isBefore()) {

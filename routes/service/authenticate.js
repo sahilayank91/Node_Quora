@@ -10,6 +10,9 @@ var client = require(__BASE__ + "modules/controller/handler/TokenHandler").REDIS
 var UserController = require(__BASE__ + "modules/controller/UserController");
 var ProfileController = require(__BASE__ + "modules/controller/ProfileController");
 var TokenHandler = require(__BASE__ + "modules/controller/handler/TokenHandler");
+const nodemailer = require('nodemailer');
+let customUUID = require(__BASE__ + "modules/utils/CustomUUID");
+
 
 /* GET users listing. */
 router.post('/login', function(req, res) {
@@ -144,21 +147,53 @@ router.post('/updateProfile', function (req, res, next) {
 
 });
 
-router.get('/forgotPassword',function(req,res){
+router.post('/forgotPassword',function(req,res){
 
     let parameters = {
         email: req.body.email
     };
-    UserController.forgotPassword(parameters)
+
+    let pass = customUUID.getRandomAplhaNumeric();
+
+    console.log("sdfasfas",pass);
+    nodemailer.createTestAccount((err, account) => {
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user:'gnvikyah6fchyfc7@ethereal.email', // generated ethereal user
+                pass: '5RGcANXq5MPuGcnarB' // generated ethereal password
+            }
+        });
+
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: '"AskBin " <sahilayank91@gmail.com>', // sender address
+            to: 'sahilayank91@gmail.com', // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: 'Your new Password is ' + pass, // plain text body
+            html: '<b>Hello world?</b>' // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            // Preview only available when sending through an Ethereal account
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        });
+    });
+
+    UserController.changePassword(parameters,{password:pass})
         .then(function (data) {
             if (data.length > 0) {
-
-                /*Setting up session parameters*/
-                req.session.key = TokenHandler.generateAuthToken(data[0]._id, data[0].role);
-                req.session.email = data[0].email;
-                req.session.role = data[0].role;
-
-
                 RESPONSE.sendOkay(res, {success: true, data: data});
             } else {
                 console.log("Some error occured while getting data from the database");

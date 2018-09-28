@@ -1,4 +1,4 @@
-IIITK_ERP.filter('intToCharFilter', function () {
+ASK_BIN.filter('intToCharFilter', function () {
     return function toLetters(num) {
         "use strict";
         var mod = num % 26,

@@ -1,4 +1,4 @@
-IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','PostsService', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,PostsService) {
+ASK_BIN.controller('UserController', ['$scope','$rootScope','UserService','$window','UIUtilityService','DataFactory','PostsService', function ($scope,$rootScope,UserService,$window,UIUtilityService,DataFactory,PostsService) {
     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
     console.log($scope.userProfile);
     $scope.confirm_password = "";
@@ -161,11 +161,14 @@ IIITK_ERP.controller('UserController', ['$scope','$rootScope','UserService','$wi
     $scope.verifyEmail = function(){
         var parameter = {
             email:$scope.email
-        }
+        };
+        console.log(parameter);
 
         UserService.forgotPassword(parameter)
             .then(function(data){
-
+                    if(data){
+                        console.log("Mail sent:",data);
+                    }
             })
 
 

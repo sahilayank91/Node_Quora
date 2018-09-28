@@ -1,4 +1,4 @@
-IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService','$window','UIUtilityService','DataFactory','Upload','PostsService', function ($scope,$rootScope,ProfileService,$window,UIUtilityService,DataFactory,Upload,PostsService) {
+ASK_BIN.controller('ProfileController', ['$scope','$rootScope','ProfileService','$window','UIUtilityService','DataFactory','Upload','PostsService', function ($scope,$rootScope,ProfileService,$window,UIUtilityService,DataFactory,Upload,PostsService) {
 	$scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
 	// $scope.userProfile = $scope.userProfile[0];
     $scope.expertise = "";

@@ -1,4 +1,4 @@
-IIITK_ERP.filter('stringify', function () {
+ASK_BIN.filter('stringify', function () {
     return function (item) {
         if (item) {
             if (typeof item === 'object')

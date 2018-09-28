@@ -1,4 +1,4 @@
-var IIITK_ERP = angular.module('IIITK_ERP',
+var ASK_BIN = angular.module('ASK_BIN',
     ['ui.router','ngFileUpload','ui.bootstrap','bootstrapLightbox']
 )
     .constant('uiDatetimePickerConfig', {

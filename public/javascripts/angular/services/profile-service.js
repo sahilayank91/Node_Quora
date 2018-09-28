@@ -1,4 +1,4 @@
-IIITK_ERP.service('ProfileService',['$http', '$q','UIUtilityService', function ($http, $q, UIUtilityService) {
+ASK_BIN.service('ProfileService',['$http', '$q','UIUtilityService', function ($http, $q, UIUtilityService) {
 
 	return {
 

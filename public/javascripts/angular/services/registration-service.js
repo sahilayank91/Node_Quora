@@ -1,4 +1,4 @@
-IIITK_ERP.service('RegistrationService', ['$http', '$q', 'UIUtilityService', function ($http, $q, UIUtilityService) {
+ASK_BIN.service('RegistrationService', ['$http', '$q', 'UIUtilityService', function ($http, $q, UIUtilityService) {
 	'use strict';
 
 

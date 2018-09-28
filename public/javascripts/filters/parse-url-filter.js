@@ -1,4 +1,4 @@
-IIITK_ERP.filter('hrefToJS', function ($sce, $sanitize) {
+ASK_BIN.filter('hrefToJS', function ($sce, $sanitize) {
     return function (text) {
 
         if(!text) return text;
