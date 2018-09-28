@@ -78,6 +78,33 @@
         <!-- Main content -->
         <section class="content">
             <!-- Small boxes (Stat box) -->
+
+             <div class="row">
+                 <div class="col-md-1"></div>
+                 <div class="col-md-8">
+                     <!-- search form -->
+                     <label for="country" class="text-secondary">Enter Search Query</label>
+                <div class="input-group">
+                     <input type="text" name="country" id="country" ng-model="country" ng-keyup="cname(country)" placeholder="Search the Question here" class="form-control" />
+                     <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+
+                </div>
+                     <ul class="list-group" ng-hide="hidethis">
+
+                         <li class="list-group-item" ng-repeat="country_info in filterCountry" ng-click="fillInputBox(country_info)">{{country_info}}</li>
+
+                     </ul>
+
+                     <div> </div>
+
+                     <p id="pText" class="text-info">You Selected <strong>{{ country }}</strong></p>
+
+                     <!-- /.search form -->
+                 </div>
+             </div>
              <div class="row">
                  <div class="col-md-1"></div>
                  <div class="col-md-8">
@@ -190,14 +217,16 @@
                              <!--</form>-->
                              <form class="form-horizontal" >
                                  <div class="form-group margin-bottom-none">
-                                     <div class="col-sm-9">
+
+                                     <div class="col-sm-10">
+                                        <div class="input-group">
                                          <input class="form-control input-sm" id="comment" type="text" placeholder="Write a Comment" ng-model="item.newComment">
+                                            <span class="input-group-btn">
+                                            <button type="button" title="Add Attachment" class="btn btn-default btn-flat pull-right" ngf-select="submit($file)"><i class="fa fa-paperclip"></i></button>
+                                            </span>
+                                        </div>
                                      </div>
 
-                                     <div class="col-sm-1">
-                                         <button type="button" title="Add Attachment" class="btn btn-default btn-flat pull-right" ngf-select="submit($file)"><i class="fa fa-paperclip"></i></button>
-
-                                     </div>
 
                                      <div class="col-sm-2">
                                          <button type="submit" class="btn btn-danger pull-right btn-block btn-sm" ng-click="addComment(item)">Send</button>

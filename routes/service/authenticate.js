@@ -170,6 +170,41 @@ router.get('/forgotPassword',function(req,res){
 
 });
 
+
+
+router.post('/changePassword',function(req,res){
+
+    let query = {
+        _id:req.body._id,
+        password: req.body.currentpass
+    };
+
+    let template = {
+        password:req.body.newpass
+    };
+
+    console.log(query);
+    UserController.changePassword(query, template)
+        .then(function (data) {
+            if (data) {
+
+                // /*Setting up session parameters*/
+                // req.session.key = TokenHandler.generateAuthToken(data[0]._id, data[0].role);
+                // req.session.email = data[0].email;
+                // req.session.role = data[0].role;
+
+
+                RESPONSE.sendOkay(res, {success: true, data: data});
+            } else {
+                console.log("Some error occured while getting data from the database");
+            }
+        }).catch(function (err) {
+        console.log(err);
+    });
+
+
+});
+
 router.get('/getLoggedInUser',function(req,res){
     if (!req.session.key) {
         return;

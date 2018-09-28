@@ -8,7 +8,7 @@ window.CONFIG = {
         logout: "service/authenticate/logout",
         register: "service/authenticate/register",
         forgotPassword: "service/authenticate/forgotPassword",
-        resetPassword: "service/authenticate/resetPassword",
+        changePassword: "service/authenticate/changePassword",
         authenticate: "service/authenticate/auth",
         getLoggedInUser:"service/authenticate/getLoggedInUser",
         updateProfile: "service/authenticate/updateProfile",

@@ -186,6 +186,20 @@ let unfollowUser = function(rule,fields,options){
     });
 };
 
+
+let changePassword = function(rule,fields,options){
+    return new Promise(function(resolve,reject){
+        User.update(rule,fields,options).exec(function(err,data){
+            if(!err){
+                resolve(data);
+            }else{
+                reject(new Error("Failed to update Users"));
+            }
+        });
+    });
+};
+
+
 module.exports = {
     createUser: createUser,
     getUsers: getUsers,
@@ -195,6 +209,7 @@ module.exports = {
     followUser:followUser,
     addFollower:addFollower,
     removeFollower:removeFollower,
-    unfollowUser:unfollowUser
+    unfollowUser:unfollowUser,
+    changePassword:changePassword
 
 };

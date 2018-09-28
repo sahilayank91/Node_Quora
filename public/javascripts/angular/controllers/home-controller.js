@@ -3,7 +3,7 @@ IIITK_ERP.controller('HomeController', ['$scope','UserService','$rootScope','$wi
      // $scope.userProfile = $scope.userProfile[0];
     console.log($scope.userProfile);
     $scope.dashboardPosts = [];
-
+    $scope.questionList = [];
 
     $scope.getUserDetails = function(){
 
@@ -37,16 +37,47 @@ IIITK_ERP.controller('HomeController', ['$scope','UserService','$rootScope','$wi
                     if(data){
                         for(let j=0;j<data.data.length;j++){
                             $scope.dashboardPosts.push(data.data[j]);
+                            $scope.questionList.push(data.data[j].content.text);
                         }
                         console.log($scope.dashboardPosts);
                     }
                 })
-
-
-
         }
+    };
+
+
+
+
+    $scope.cname = function(string) {
+
+        $scope.hidethis = false;
+
+        var output = [];
+
+        angular.forEach($scope.questionList, function(country) {
+
+            if (country.toLowerCase().indexOf(string.toLowerCase()) >= 0) {
+
+                output.push(country);
+
+            }
+
+        });
+
+        $scope.filterCountry = output;
+
+        console.log($scope.filterCountry);
 
     };
+
+    $scope.fillInputBox = function(string) {
+
+        $scope.country = string;
+
+        $scope.hidethis = true;
+
+    };
+
 
     $scope.addComment = function(post){
         var parameter = {

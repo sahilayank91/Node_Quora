@@ -209,7 +209,7 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
 		$scope.occupation = $scope.userProfile.occupation;
 		$scope.expertise = $scope.userProfile.expertise;
 		$("#myModal").modal();
-	}
+	};
 
 
     vm.submit = function(){ //function to call on form submit
@@ -245,6 +245,30 @@ IIITK_ERP.controller('ProfileController', ['$scope','$rootScope','ProfileService
         });
     };
 
+    $scope.openChangePasswordModal = function(){
+            $("#passwordmodal").modal('show');
+    };
+
+    $scope.changePassword = function(){
+        $("#passwordmodal").modal('hide');
+
+
+        var parameters = {
+            _id:$scope.userProfile._id,
+            currentpass:$scope.currentpass,
+            newpass:$scope.newpass,
+            confirmpass:$scope.confirmpass
+        };
+
+
+        ProfileService.changePassword(parameters)
+            .then(function(data){
+                if(data){
+                    console.log("Password Changed");
+                }
+            })
+
+    };
     $scope.getAskedQuestions();
     $scope.getSavedPosts();
     $scope.getSuggestedEdits();

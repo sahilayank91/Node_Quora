@@ -117,6 +117,21 @@ let forgotPassword = function (email) {
 };
 
 
+
+let changePassword = function (query,template) {
+    return userOperations.changePassword(query,template)
+        .then(function(data){
+            if(data){
+                return data;
+            }else{
+                throw new Error('No User exists with given useremail');
+            }
+        }).catch(function(error){
+            console.log("Error in get Users: ",error);
+        });
+
+};
+
 module.exports = {
   getUsers:getUsers,
   getUserFullDetail:getUserFullDetail,
@@ -125,5 +140,6 @@ module.exports = {
   updateProfilePic:updateProfilePic,
     followUser:followUser,
     unfollowUser:unfollowUser,
-    forgotPassword:forgotPassword
+    forgotPassword:forgotPassword,
+    changePassword:changePassword
 };
