@@ -11,6 +11,7 @@ let getNotificationCreateTemplate = function (parameters) {
         switch (key) {
             case 'post':
             case 'text':
+            case 'type':
             case 'user':
             case 'postedBy':
                 template[key] = parameters[key];

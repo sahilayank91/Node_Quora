@@ -102,7 +102,9 @@ let createSuggestion = function(parameters){
         .then(function(data){
             if(data){
                 console.log(parameters);
-                return notificationOperations.createNotification(parameters)
+                var param = parameters;
+                param.type = 'Suggestion';
+                return notificationOperations.createNotification(param)
                     .then(function(data){
                         if(data){
                             return data;
@@ -136,6 +138,18 @@ let reportPost = function(parameters){
     return postOperations.reportPost(parameters)
         .then(function(data){
             if(data){
+
+                console.log(parameters);
+                let param = parameters;
+                param.type = 'Report';
+                param.user = parameters.postedBy;
+                param.text = parameters.reason;
+                return notificationOperations.createNotification(param)
+                    .then(function(data){
+                        if(data){
+                            return data;
+                        }
+                    })
                 return data;
             }
         })
