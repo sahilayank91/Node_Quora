@@ -1,11 +1,13 @@
-### Node Express template project
+### A Quora template made using Node js
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+How to Start the Server and the website:
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
+1) Clone the repository
+2) In the directory run npm install
+3) Run bower install bower.json
+4) To start the server  - npm start
+5) Access the website using localhost:3000
 
-### CI/CD with Auto DevOps
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+
