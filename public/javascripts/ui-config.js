@@ -14,6 +14,8 @@ window.CONFIG = {
         updateProfile: "service/authenticate/updateProfile",
         getProfile: "service/authenticate/getProfile",
 
+        activateAccount: "service/authenticate/activateAccount",
+
 
     },
       registrationURL:{

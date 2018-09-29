@@ -1,4 +1,4 @@
-ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$window','UIUtilityService','DataFactory','HomeService','PostsService','Upload', function ($scope,UserService,$rootScope,$window,UIUtilityService,DataFactory,HomeService,PostsService,Upload) {
+ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$window','UIUtilityService','DataFactory','HomeService','PostsService','Upload','ProfileService', function ($scope,UserService,$rootScope,$window,UIUtilityService,DataFactory,HomeService,PostsService,Upload,ProfileService) {
     $scope.userProfile = JSON.parse(DataFactory.getResult('userdata'));
      // $scope.userProfile = $scope.userProfile[0];
     console.log($scope.userProfile);
@@ -45,6 +45,60 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
         }
     };
 
+
+    $scope.showActivationModal = function(){
+        $("#activationmodal").modal('show');
+    };
+    $scope.activateProfile = function(){
+        var parameters = {
+            _id:$scope.userProfile._id,
+            activated:true
+        };
+        if($scope.profilePic){
+            parameters.profilePic = $scope.profilePic;
+        }
+        var interest=[];
+        if($scope.Education){
+            interest.push('Education');
+        }
+        if($scope.Technology){
+            interest.push('Technology');
+        }
+        if($scope.Politics){
+            interest.push('Politics');
+        }
+        if($scope.Civics){
+            interest.push('Civics');
+        }
+        if($scope.Websites){
+            interest.push('Websites');
+        }
+        if($scope.Android){
+            interest.push('Android');
+        }
+
+        parameters.interest = interest;
+        ProfileService.activateAccount(parameters)
+            .then(function(data){
+                if(data){
+                    console.log(data);
+                    $scope.getUserDetails();
+                }else{
+                    UIUtilityService.NOTIFICATION.show({
+                        title: "Failed",
+                        content: "Error in Updating Profile. Please Try Again",
+                        type: "error"
+                    });
+
+
+                }
+            }).catch(function(err){
+
+
+        })
+    };
+
+    $scope.userProfile.activated===false ? $scope.showActivationModal() : true;
 
 
 

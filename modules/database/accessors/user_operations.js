@@ -115,7 +115,7 @@ let deleteUsers = function(rule,fields,options){
 
 let updateUser = function(rule,fields,options){
   return new Promise(function(resolve,reject){
-    User.findOneAndUpdate(rule,fields,options).exec(function(err,data){
+    User.findOneAndUpdate(rule,fields, {upsert: true}).exec(function(err,data){
         if(!err){
             resolve(data);
         }else{

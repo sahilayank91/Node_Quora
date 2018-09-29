@@ -128,7 +128,8 @@ router.post('/updateProfile', function (req, res, next) {
         profilePic:req.body.profilePic,
         occupation:req.body.occupation,
 		permanent_address: req.body.permanent_address,
-        expertise:req.body.expertise
+        expertise:req.body.expertise,
+        activated:req.body.activated
 	};
 	if(req.body.interest){
 	    parameters.interest=req.body.interest;
@@ -143,6 +144,30 @@ router.post('/updateProfile', function (req, res, next) {
 		}).catch(function(err){
 		console.log(err);
 	});
+
+
+});
+
+router.post('/activateAccount', function (req, res, next) {
+    var parameters = {
+        _id:req.body._id,
+        activated:req.body.activated
+    };
+    if(req.body.interest){
+        parameters.interest=req.body.interest;
+    }
+
+    console.log(parameters);
+    ProfileController.updateProfile(parameters)
+        .then(function (Data) {
+            if (Data) {
+                RESPONSE.sendOkay(res, {success: true});
+            } else {
+                console.log("Some error occured while updating data in the database");
+            }
+        }).catch(function(err){
+        console.log(err);
+    });
 
 
 });
