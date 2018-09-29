@@ -123,6 +123,30 @@ ASK_BIN.service('UserService',['$http', '$q','UIUtilityService', function ($http
             });
             return deferred.promise;
         },
+        getNotification:function(parameters){
+            var deferred = $q.defer();
+            var deferredData = {};
+            console.log(parameters);
+
+            var url = UIUtilityService.getURL('authenticate').getNotification;
+            $http({method: 'POST', url: url, data: parameters}).then(function (data) {
+                data = data.data;
+                if (data.success == 'false' || !data.success) {
+                    deferredData.success = false;
+                } else {
+                    deferredData.success = true;
+                    deferredData.data = data.data;
+                }
+                deferredData.message = data.message;
+                deferred.resolve(deferredData);
+
+            }, function(result) {
+                //some error
+                deferredData.success = false;
+                deferred.resolve(deferredData);
+            });
+            return deferred.promise;
+        },
     }
 
 

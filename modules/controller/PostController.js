@@ -1,5 +1,5 @@
 let postOperations = require(__BASE__+"modules/database/accessors/post_operations");
-let commentOperations = require(__BASE__+"modules/database/accessors/comment_operations");
+let notificationOperations = require(__BASE__+"modules/database/accessors/notification_operations");
 
 
 let createPost = function(parameters){
@@ -101,7 +101,16 @@ let createSuggestion = function(parameters){
     return postOperations.createSuggestion(parameters)
         .then(function(data){
             if(data){
-                return data;
+                console.log(parameters);
+                return notificationOperations.createNotification(parameters)
+                    .then(function(data){
+                        if(data){
+                            return data;
+                        }
+                    })
+
+
+
             }
         })
 };

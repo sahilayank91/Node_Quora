@@ -12,6 +12,7 @@ var ProfileController = require(__BASE__ + "modules/controller/ProfileController
 var TokenHandler = require(__BASE__ + "modules/controller/handler/TokenHandler");
 const nodemailer = require('nodemailer');
 let customUUID = require(__BASE__ + "modules/utils/CustomUUID");
+let notificationOperations = require(__BASE__+"modules/database/accessors/notification_operations");
 
 
 /* GET users listing. */
@@ -115,6 +116,21 @@ console.log("id:",id);
 
 });
 
+router.post('/getNotification',function(req,res,next){
+    var id = req.body._id;
+    console.log("id:",id);
+    //req.session.user_id = id;
+    notificationOperations.getNotification({user:id})
+        .then(function(data){
+            if(data){
+                console.log(data);
+                RESPONSE.sendOkay(res, {success: true, data: data});
+            }
+        }).catch(function (error) {
+        console.log("Error : ", error);
+    });
+
+});
 router.post('/updateProfile', function (req, res, next) {
 	var parameters = {
 		_id:req.body._id,

@@ -4,7 +4,7 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
     console.log($scope.userProfile);
     $scope.dashboardPosts = [];
     $scope.questionList = [];
-
+    $scope.notification = [];
     $scope.getUserDetails = function(){
 
         var parameters = {
@@ -372,6 +372,20 @@ ASK_BIN.controller('HomeController', ['$scope','UserService','$rootScope','$wind
                 }
             })
     };
+
+    $scope.getNotification = function(){
+        let parameter = {
+            _id:$scope.userProfile._id
+        };
+            UserService.getNotification(parameter)
+                .then(function(data){
+                    if(data){
+                        $scope.notification = data.data;
+                        console.log("Array: ",$scope.notification);
+                    }
+                })
+    };
+    $scope.getNotification();
     $scope.getDashboardPosts();
 
 

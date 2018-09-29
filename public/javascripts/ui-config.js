@@ -14,6 +14,7 @@ window.CONFIG = {
         updateProfile: "service/authenticate/updateProfile",
         getProfile: "service/authenticate/getProfile",
 
+        getNotification: "service/authenticate/getNotification",
         activateAccount: "service/authenticate/activateAccount",
 
 
